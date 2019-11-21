@@ -4,15 +4,46 @@ import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.wgu_android.studenttracker6.Adapters.AssessmentsAdapter;
+import com.wgu_android.studenttracker6.Adapters.CourseAdapter;
+import com.wgu_android.studenttracker6.Adapters.TermAdapter;
+import com.wgu_android.studenttracker6.Database.SampleData;
+import com.wgu_android.studenttracker6.Entities.AssessmentEntity;
+import com.wgu_android.studenttracker6.Entities.CourseEntity;
+import com.wgu_android.studenttracker6.Entities.TermEntity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity {
+
+    @BindView(R.id.recyclerView_Terms)
+    RecyclerView mRecyclerViewTerms;
+
+    @BindView(R.id.recyclerView_Courses)
+    RecyclerView mRecyclerViewCourses;
+
+    @BindView(R.id.recyclerView_Assessments)
+    RecyclerView mRecyclerViewAssessments;
+
+    private List<TermEntity> termData = new ArrayList<>();
+    private TermAdapter mTermAdapter;
+    private List<CourseEntity> courseData = new ArrayList<>();
+    private CourseAdapter mCourseAdapter;
+    private List<AssessmentEntity> assessmentData = new ArrayList<>();
+    private AssessmentsAdapter mAssessmentAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        ButterKnife.bind(this);
+        initRecyclerView();
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -29,6 +63,33 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        termData.addAll(SampleData.getTerm());
+        courseData.addAll(SampleData.getCourse());
+        //assessmentData.add(SampleData.getAssessments());
+    }
+
+    private void initRecyclerView() {
+
+
+        mRecyclerViewTerms.setHasFixedSize(true);
+        LinearLayoutManager layoutManagerTerms = new LinearLayoutManager(this);
+        mRecyclerViewTerms.setLayoutManager(layoutManagerTerms);
+
+
+        mRecyclerViewCourses.setHasFixedSize(true);
+        LinearLayoutManager layoutManagerCourses = new LinearLayoutManager(this);
+        mRecyclerViewCourses.setLayoutManager(layoutManagerCourses);
+
+        mRecyclerViewAssessments.setHasFixedSize(true);
+        LinearLayoutManager layoutManagerAssessments = new LinearLayoutManager(this);
+        mRecyclerViewAssessments.setLayoutManager(layoutManagerAssessments);
+
+        mTermAdapter = new TermAdapter(termData, this);
+        mRecyclerViewTerms.setAdapter(mTermAdapter);
+
+        mCourseAdapter = new CourseAdapter(courseData, this);
+        mRecyclerViewCourses.setAdapter(mCourseAdapter);
     }
 
     @Override

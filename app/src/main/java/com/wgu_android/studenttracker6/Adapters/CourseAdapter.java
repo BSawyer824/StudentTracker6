@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.wgu_android.studenttracker6.Entities.AssessmentEntity;
+import com.wgu_android.studenttracker6.Entities.CourseEntity;
 import com.wgu_android.studenttracker6.Entities.TermEntity;
 import com.wgu_android.studenttracker6.R;
 
@@ -18,43 +18,41 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AssessmentsAdapter extends RecyclerView.Adapter<AssessmentsAdapter.ViewHolder> {
+public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
 
-    private final List<AssessmentEntity> mAssessments;
+    private final List<CourseEntity> mCourses;
     private final Context mContext;
 
-    public AssessmentsAdapter(List<AssessmentEntity> mAssessments, Context mContext) {
-        this.mAssessments = mAssessments;
+    public CourseAdapter(List<CourseEntity> mCourses, Context mContext) {
+        this.mCourses = mCourses;
         this.mContext = mContext;
     }
-
+    
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.assessment_item_list, parent, false);
+        View view = inflater.inflate(R.layout.course_item_list, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final AssessmentEntity assessment = mAssessments.get(position);
-        holder.mTextViewAssessmentName.setText(assessment.getAssessmentName());
-
+        final CourseEntity course = mCourses.get(position);
+        holder.mTextViewCourseName.setText(course.getCourseName());
     }
 
     @Override
     public int getItemCount() {
-        return mAssessments.size();
+        return mCourses.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.textView_Course_Name)
+        TextView mTextViewCourseName;
 
-        @BindView(R.id.textView_Assessment_Name)
-        TextView mTextViewAssessmentName;
-
-        @BindView(R.id.textView_Assessment_Dates)
-        TextView mTextViewAssessmentDates;
+        @BindView(R.id.textView_Course_Dates)
+        TextView mTextViewCourseDates;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
