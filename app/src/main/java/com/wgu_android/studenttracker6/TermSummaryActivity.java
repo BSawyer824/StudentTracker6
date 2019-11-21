@@ -120,10 +120,15 @@ public class TermSummaryActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_add_sample_data) {
+            addSampleData();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void addSampleData() {
+        mViewModel.addSampleData();
     }
 }

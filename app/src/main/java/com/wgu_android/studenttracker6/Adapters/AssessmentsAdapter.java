@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.wgu_android.studenttracker6.Entities.AssessmentEntity;
-import com.wgu_android.studenttracker6.Entities.TermEntity;
 import com.wgu_android.studenttracker6.R;
 
 import java.util.List;

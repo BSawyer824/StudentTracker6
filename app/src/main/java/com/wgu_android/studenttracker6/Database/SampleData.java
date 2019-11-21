@@ -44,26 +44,14 @@ public class SampleData {
         return course;
     }
 
-    public static List<TermCourseEntity> getTermCourseAssociation() {
-        List<TermCourseEntity> termCourse = new ArrayList<>();
-        termCourse.add(new TermCourseEntity(1, 1));
-        termCourse.add(new TermCourseEntity(1, 2));
-    return termCourse;
-    }
 
-    public static List<AssessmentEntity> getAssessments() {
+    public static List<AssessmentEntity> getAssessment() {
         List<AssessmentEntity> assessment = new ArrayList<>();
         assessment.add(new AssessmentEntity(SAMPLE_TEXT_6, getDate(750)));
         assessment.add(new AssessmentEntity(SAMPLE_TEXT_7, getDate(2500)));
         return assessment;
     }
 
-    public static List<CourseAssessmentEntity> getCourseAssessmentAssociation() {
-        List<CourseAssessmentEntity> courseAssessment = new ArrayList<>();
-        courseAssessment.add(new CourseAssessmentEntity(1, 1));
-        courseAssessment.add(new CourseAssessmentEntity(2, 1));
-        return courseAssessment;
-    }
 
 
     
