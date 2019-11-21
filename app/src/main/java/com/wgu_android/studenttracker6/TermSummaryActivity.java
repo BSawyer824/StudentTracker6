@@ -11,9 +11,11 @@ import com.wgu_android.studenttracker6.Database.SampleData;
 import com.wgu_android.studenttracker6.Entities.AssessmentEntity;
 import com.wgu_android.studenttracker6.Entities.CourseEntity;
 import com.wgu_android.studenttracker6.Entities.TermEntity;
+import com.wgu_android.studenttracker6.ViewModels.TermSummaryViewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,7 +29,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class TermSummaryActivity extends AppCompatActivity {
 
     @BindView(R.id.recyclerView_Terms)
     RecyclerView mRecyclerViewTerms;
@@ -44,15 +46,18 @@ public class MainActivity extends AppCompatActivity {
     private CourseAdapter mCourseAdapter;
     private List<AssessmentEntity> assessmentData = new ArrayList<>();
     private AssessmentsAdapter mAssessmentAdapter;
+    private TermSummaryViewModel mViewModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_term_summary);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);
+        initViewModel();
         initRecyclerView();
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -64,9 +69,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        termData.addAll(SampleData.getTerm());
-        courseData.addAll(SampleData.getCourse());
-        //assessmentData.add(SampleData.getAssessments());
+        termData.addAll(mViewModel.mTerms);
+        courseData.addAll(mViewModel.mCourses);
+        assessmentData.addAll(mViewModel.mAssessments);
+    }
+
+    private void initViewModel() {
+        mViewModel = ViewModelProviders.of(this)
+                .get(TermSummaryViewModel.class);
     }
 
     private void initRecyclerView() {
@@ -90,6 +100,9 @@ public class MainActivity extends AppCompatActivity {
 
         mCourseAdapter = new CourseAdapter(courseData, this);
         mRecyclerViewCourses.setAdapter(mCourseAdapter);
+
+        mAssessmentAdapter = new AssessmentsAdapter(assessmentData, this);
+        mRecyclerViewAssessments.setAdapter(mAssessmentAdapter);
     }
 
     @Override
