@@ -10,4 +10,5 @@
     <string name="enter_term_name">enter term name</string>
     <string name="start">start</string>
     <string name="end">end</string>
+    <string name="action_delete_term">Delete Term</string>
 </resources>

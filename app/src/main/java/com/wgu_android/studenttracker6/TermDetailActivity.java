@@ -8,6 +8,8 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 public class TermDetailActivity extends AppCompatActivity {
@@ -18,6 +20,9 @@ public class TermDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_term_detail);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_save);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -27,6 +32,30 @@ public class TermDetailActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_termdetail, menu);
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //Save Button
+        if (item.getItemId() == android.R.id.home) {
+            //saveAndReturn();
+            return true;
+        } else if (item.getItemId() == R.id.action_delete_term) {
+            //mViewModel.deleteTerm();
+            finish();
+        }
+
+
+        return super.onOptionsItemSelected(item);
     }
 
 }
