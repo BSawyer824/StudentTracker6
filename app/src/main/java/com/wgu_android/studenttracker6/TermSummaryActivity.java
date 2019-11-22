@@ -1,5 +1,6 @@
 package com.wgu_android.studenttracker6;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -40,6 +41,7 @@ public class TermSummaryActivity extends AppCompatActivity {
     @BindView(R.id.recyclerView_Assessments)
     RecyclerView mRecyclerViewAssessments;
 
+    public static final int NEW_TERM_ACTIVITY_REQUEST_CODE = 1;
     private List<TermEntity> termData = new ArrayList<>();
     private TermAdapter mTermAdapter;
     private List<CourseEntity> courseData = new ArrayList<>();
@@ -60,15 +62,17 @@ public class TermSummaryActivity extends AppCompatActivity {
         initViewModel();
         initRecyclerView();
 
+        //Open Term Detail Screen
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(TermSummaryActivity.this, TermDetailActivity.class);
+                startActivityForResult(intent, NEW_TERM_ACTIVITY_REQUEST_CODE);
             }
         });
 
+        //Add Sample Data
         termData.addAll(mViewModel.mTerms);
         courseData.addAll(mViewModel.mCourses);
         assessmentData.addAll(mViewModel.mAssessments);

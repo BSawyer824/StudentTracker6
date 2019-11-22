@@ -12,7 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.wgu_android.studenttracker6.Entities.TermEntity;
 import com.wgu_android.studenttracker6.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,8 +43,19 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         //update display of a list item
         final TermEntity term = mTerms.get(position);
-        holder.mTextView_TermName.setText(term.getTermName());
 
+        //assign start and end dates to a string
+        Date startDate = term.getTermStart();
+        Date endDate = term.getTermEnd();
+        DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        String strDate = dateFormat.format(startDate);
+        String strDateEnd = dateFormat.format(endDate);
+        String label = strDate + "  to  " + strDateEnd;
+
+        //Display Term name and Dates in Recycler View
+        holder.mTextView_TermName.setText(term.getTermName());
+        holder.mTextView_TermDates.setText(label);
 
     }
 
