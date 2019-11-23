@@ -1,6 +1,7 @@
 package com.wgu_android.studenttracker6.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.wgu_android.studenttracker6.Entities.TermEntity;
 import com.wgu_android.studenttracker6.R;
+import com.wgu_android.studenttracker6.TermDetailActivity;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -20,6 +22,9 @@ import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.wgu_android.studenttracker6.Utilities.Constants.TERM_KEY_ID;
+import static com.wgu_android.studenttracker6.Utilities.Constants.TERM_NAME;
 
 public class TermAdapter extends RecyclerView.Adapter<TermAdapter.ViewHolder> {
 
@@ -57,6 +62,18 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.ViewHolder> {
         holder.mTextView_TermName.setText(term.getTermName());
         holder.mTextView_TermDates.setText(label);
 
+
+        //When clicked, send selected term to the next activity
+        holder.mTextView_TermName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, TermDetailActivity.class);
+                intent.putExtra(TERM_KEY_ID, term.getTermID());
+                intent.putExtra(TERM_NAME, term.getTermName());
+                mContext.startActivity(intent);
+            }
+        });
+
     }
 
     @Override
@@ -65,6 +82,7 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        //manages the view, references any views used to display data
 
         @BindView(R.id.textView_Term_Name)
         TextView mTextView_TermName;
