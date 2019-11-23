@@ -37,8 +37,6 @@ public class TermSummaryActivity extends AppCompatActivity {
     @BindView(R.id.recyclerView_Terms)
     RecyclerView mRecyclerViewTerms;
 
-    @BindView(R.id.recyclerView_Courses)
-    RecyclerView mRecyclerViewCourses;
 
     @BindView(R.id.recyclerView_Assessments)
     RecyclerView mRecyclerViewAssessments;
@@ -46,8 +44,6 @@ public class TermSummaryActivity extends AppCompatActivity {
     public static final int NEW_TERM_ACTIVITY_REQUEST_CODE = 1;
     private List<TermEntity> termData = new ArrayList<>();
     private TermAdapter mTermAdapter;
-    private List<CourseEntity> courseData = new ArrayList<>();
-    private CourseAdapter mCourseAdapter;
     private List<AssessmentEntity> assessmentData = new ArrayList<>();
     private AssessmentsAdapter mAssessmentAdapter;
     private TermSummaryViewModel mViewModel;
@@ -76,8 +72,6 @@ public class TermSummaryActivity extends AppCompatActivity {
         });
 
         //Add Sample Data
-        //termData.addAll(mViewModel.mTerms);
-        courseData.addAll(mViewModel.mCourses);
         assessmentData.addAll(mViewModel.mAssessments);
     }
 
@@ -114,18 +108,10 @@ public class TermSummaryActivity extends AppCompatActivity {
         DividerItemDecoration divider = new DividerItemDecoration(mRecyclerViewTerms.getContext(), layoutManagerTerms.getOrientation());
         mRecyclerViewTerms.addItemDecoration(divider);
 
-        mRecyclerViewCourses.setHasFixedSize(true);
-        LinearLayoutManager layoutManagerCourses = new LinearLayoutManager(this);
-        mRecyclerViewCourses.setLayoutManager(layoutManagerCourses);
-
         mRecyclerViewAssessments.setHasFixedSize(true);
         LinearLayoutManager layoutManagerAssessments = new LinearLayoutManager(this);
         mRecyclerViewAssessments.setLayoutManager(layoutManagerAssessments);
 
-
-
-        mCourseAdapter = new CourseAdapter(courseData, this);
-        mRecyclerViewCourses.setAdapter(mCourseAdapter);
 
         mAssessmentAdapter = new AssessmentsAdapter(assessmentData, this);
         mRecyclerViewAssessments.setAdapter(mAssessmentAdapter);
