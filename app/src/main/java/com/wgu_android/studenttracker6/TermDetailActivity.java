@@ -19,11 +19,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -83,6 +86,61 @@ public class TermDetailActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        //*****************************************************
+        //Make STart and End Date fields have a calendar date picker
+
+        //Start Date - Date Picker
+        startDate = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendarStart.set(Calendar.YEAR, year);
+                myCalendarStart.set(Calendar.MONTH, monthOfYear);
+                myCalendarStart.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabelStart();
+            }
+
+        };
+
+        mEditTextStartDate.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(TermDetailActivity.this, startDate, myCalendarStart
+                        .get(Calendar.YEAR), myCalendarStart.get(Calendar.MONTH),
+                        myCalendarStart.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+        //End Date - Date Picker
+        endDate = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendarEnd.set(Calendar.YEAR, year);
+                myCalendarEnd.set(Calendar.MONTH, monthOfYear);
+                myCalendarEnd.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabelEnd();
+            }
+
+        };
+
+        mEditTextEndDate.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(TermDetailActivity.this, endDate, myCalendarEnd
+                        .get(Calendar.YEAR), myCalendarEnd.get(Calendar.MONTH),
+                        myCalendarEnd.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
     }
 
     private void initViewModel() {
@@ -92,6 +150,8 @@ public class TermDetailActivity extends AppCompatActivity {
             @Override
             public void onChanged(TermEntity termEntity) {
                 mTextViewTermName.setText(termEntity.getTermName());
+                setLabelStart(termEntity);
+                setLabelEnd(termEntity);
             }
         });
 
@@ -139,9 +199,38 @@ public class TermDetailActivity extends AppCompatActivity {
     }
 
     private void saveAndReturn() {
-        mViewModel.saveTerm(mTextViewTermName.getText().toString());  //for testing just the Term Name
-        //mViewModel.saveTerm(mTextViewTermName.getText().toString(), myCalendarStart.getTime(), myCalendarEnd.getTime()); //To send Name and Dates
+        //mViewModel.saveTerm(mTextViewTermName.getText().toString());  //for testing just the Term Name
+        mViewModel.saveTerm(mTextViewTermName.getText().toString(), myCalendarStart.getTime(), myCalendarEnd.getTime()); //To send Name and Dates
         finish();
+    }
+
+
+    private void updateLabelStart() {
+        String myFormat = "MM/dd/yy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        mEditTextStartDate.setText(sdf.format(myCalendarStart.getTime()));
+    }
+
+    private void setLabelStart(TermEntity termsEntity) {
+        String myFormat = "MM/dd/yy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        mEditTextStartDate.setText(sdf.format(termsEntity.getTermStart()));
+    }
+
+    private void updateLabelEnd() {
+        String myFormat = "MM/dd/yy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        mEditTextEndDate.setText(sdf.format(myCalendarEnd.getTime()));
+    }
+
+    private void setLabelEnd(TermEntity termsEntity) {
+        String myFormat = "MM/dd/yy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        mEditTextEndDate.setText(sdf.format(termsEntity.getTermEnd()));
     }
 
 }
