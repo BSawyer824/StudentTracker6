@@ -2,6 +2,8 @@ package com.wgu_android.studenttracker6.Database;
 
 import android.content.Context;
 
+import androidx.lifecycle.LiveData;
+
 import com.wgu_android.studenttracker6.Entities.AssessmentEntity;
 import com.wgu_android.studenttracker6.Entities.CourseEntity;
 import com.wgu_android.studenttracker6.Entities.TermEntity;
@@ -13,10 +15,10 @@ import java.util.concurrent.Executors;
 public class AppRepository {
     private static AppRepository ourInstance;
 
-    public List<TermEntity> mTerms;
+    public LiveData<List<TermEntity>> mTerms;
     public List<CourseEntity> mCourses;
     public List<AssessmentEntity> mAssessments;
-    private AppDatabase mDB;
+    private AppDatabase mDb;
     private Executor executor = Executors.newSingleThreadExecutor();
 
     public static AppRepository getInstance(Context context) {
@@ -28,11 +30,12 @@ public class AppRepository {
 
     private AppRepository(Context context) {
 
-        mTerms = SampleData.getTerm();
+
+
+        mDb = AppDatabase.getDatabase(context);
+        mTerms = getAllTerms();
         mCourses = SampleData.getCourse();
         mAssessments = SampleData.getAssessment();
-
-        mDB = AppDatabase.getDatabase(context);
 
     }
 
@@ -40,11 +43,26 @@ public class AppRepository {
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                mDB.termDao().insertAll(SampleData.getTerm());
-                mDB.courseDao().insertAll(SampleData.getCourse());
-                mDB.assessmentDao().insertAll(SampleData.getAssessment());
+                mDb.termDao().insertAll(SampleData.getTerm());
+                mDb.courseDao().insertAll(SampleData.getCourse());
+                mDb.assessmentDao().insertAll(SampleData.getAssessment());
             }
         });
 
+    }
+
+    //*************************************************************
+    //Term Methods
+    private LiveData<List<TermEntity>> getAllTerms() {
+        return mDb.termDao().getAllTerm();
+    }
+
+    public void deleteAllTerms() {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                mDb.termDao().deleteAll();
+            }
+        });
     }
 }
