@@ -65,4 +65,26 @@ public class AppRepository {
             }
         });
     }
+
+    public TermEntity getTermById(int termId) {
+       return mDb.termDao().getTermById(termId);
+    }
+
+    public void insertTerm(final TermEntity term) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                mDb.termDao().insert(term);
+            }
+        });
+    }
+
+    public void deleteTerm(final TermEntity term) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                mDb.termDao().deleteTerm(term);
+            }
+        });
+    }
 }

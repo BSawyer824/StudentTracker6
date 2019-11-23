@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
@@ -75,6 +77,7 @@ public class TermDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ButterKnife.bind(this);
+        initRecyclerView();
         initViewModel();
 
         //Add a new Assessment
@@ -87,8 +90,13 @@ public class TermDetailActivity extends AppCompatActivity {
             }
         });
 
+
+        //Add Sample Data
+        courseData.addAll(mViewModel.mCourse);
+
+
         //*****************************************************
-        //Make STart and End Date fields have a calendar date picker
+        //Make Start and End Date fields have a calendar date picker
 
         //Start Date - Date Picker
         startDate = new DatePickerDialog.OnDateSetListener() {
@@ -143,6 +151,18 @@ public class TermDetailActivity extends AppCompatActivity {
         });
     }
 
+    private void initRecyclerView() {
+        mRecyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        DividerItemDecoration divider = new DividerItemDecoration(mRecyclerView.getContext(), layoutManager.getOrientation());
+        mRecyclerView.addItemDecoration(divider);
+
+        mAdapter = new CourseAdapter(courseData, this);
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
     private void initViewModel() {
         mViewModel = ViewModelProviders.of(this).get(TermDetailViewModel.class);
 
@@ -183,7 +203,7 @@ public class TermDetailActivity extends AppCompatActivity {
             saveAndReturn();
             return true;
         } else if (item.getItemId() == R.id.action_delete_term) {
-            //mViewModel.deleteTerm();
+            mViewModel.deleteTerm();
             finish();
         }
 

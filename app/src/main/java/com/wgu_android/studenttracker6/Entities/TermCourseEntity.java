@@ -19,6 +19,7 @@ import static androidx.room.ForeignKey.CASCADE;
 public class TermCourseEntity {
 
     @PrimaryKey
+
     @ColumnInfo(name="term_course_id")
     private int term_course_id;
 

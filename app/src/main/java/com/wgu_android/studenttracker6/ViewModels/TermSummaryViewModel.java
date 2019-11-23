@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
 import com.wgu_android.studenttracker6.Database.AppRepository;
 import com.wgu_android.studenttracker6.Database.SampleData;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class TermSummaryViewModel extends AndroidViewModel {
 
-    public List<TermEntity> mTerms;
+    public LiveData<List<TermEntity>> mTerms;
     public List<CourseEntity> mCourses;
     public List<AssessmentEntity> mAssessments;
     private AppRepository mRepository;
@@ -32,5 +33,9 @@ public class TermSummaryViewModel extends AndroidViewModel {
 
     public void addSampleData() {
         mRepository.addSampleData();
+    }
+
+    public void deleteAllTerms() {
+        mRepository.deleteAllTerms();
     }
 }

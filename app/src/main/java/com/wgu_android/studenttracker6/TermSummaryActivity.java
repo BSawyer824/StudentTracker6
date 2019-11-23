@@ -16,7 +16,9 @@ import com.wgu_android.studenttracker6.ViewModels.TermSummaryViewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -59,8 +61,9 @@ public class TermSummaryActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);
-        initViewModel();
         initRecyclerView();
+        initViewModel();
+
 
         //Open Term Detail Screen
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -73,14 +76,32 @@ public class TermSummaryActivity extends AppCompatActivity {
         });
 
         //Add Sample Data
-        termData.addAll(mViewModel.mTerms);
+        //termData.addAll(mViewModel.mTerms);
         courseData.addAll(mViewModel.mCourses);
         assessmentData.addAll(mViewModel.mAssessments);
     }
 
     private void initViewModel() {
+
+        final Observer<List<TermEntity>> termObserver = new Observer<List<TermEntity>>() {
+            @Override
+            public void onChanged(List<TermEntity> termEntities) {
+                termData.clear();
+                termData.addAll(termEntities);
+
+                if (mTermAdapter == null) {
+                    mTermAdapter = new TermAdapter(termData, TermSummaryActivity.this);
+                    mRecyclerViewTerms.setAdapter(mTermAdapter);
+                } else {
+                    //refreshes from adapter when data changes
+                    mTermAdapter.notifyDataSetChanged();
+                }
+            }
+        };
+
         mViewModel = ViewModelProviders.of(this)
                 .get(TermSummaryViewModel.class);
+        mViewModel.mTerms.observe(this, termObserver); //subscribed to the data
     }
 
     private void initRecyclerView() {
@@ -90,6 +111,8 @@ public class TermSummaryActivity extends AppCompatActivity {
         LinearLayoutManager layoutManagerTerms = new LinearLayoutManager(this);
         mRecyclerViewTerms.setLayoutManager(layoutManagerTerms);
 
+        DividerItemDecoration divider = new DividerItemDecoration(mRecyclerViewTerms.getContext(), layoutManagerTerms.getOrientation());
+        mRecyclerViewTerms.addItemDecoration(divider);
 
         mRecyclerViewCourses.setHasFixedSize(true);
         LinearLayoutManager layoutManagerCourses = new LinearLayoutManager(this);
@@ -99,8 +122,7 @@ public class TermSummaryActivity extends AppCompatActivity {
         LinearLayoutManager layoutManagerAssessments = new LinearLayoutManager(this);
         mRecyclerViewAssessments.setLayoutManager(layoutManagerAssessments);
 
-        mTermAdapter = new TermAdapter(termData, this);
-        mRecyclerViewTerms.setAdapter(mTermAdapter);
+
 
         mCourseAdapter = new CourseAdapter(courseData, this);
         mRecyclerViewCourses.setAdapter(mCourseAdapter);
@@ -127,9 +149,16 @@ public class TermSummaryActivity extends AppCompatActivity {
         if (id == R.id.action_add_sample_data) {
             addSampleData();
             return true;
+        } else if (id == R.id.action_delete_all_data) {
+            deleteAllTerm();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void deleteAllTerm() {
+        mViewModel.deleteAllTerms();
     }
 
     private void addSampleData() {

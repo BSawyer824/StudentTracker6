@@ -11,4 +11,14 @@
     <string name="start">start</string>
     <string name="end">end</string>
     <string name="action_delete_term">Delete Term</string>
+    <string name="delete_all">Delete All</string>
+    <string name="title_activity_course_detail">CourseDetailActivity</string>
+    <string name="course_name">Course Name</string>
+    <string name="start_date">Start Date</string>
+    <string name="end_date">End Date</string>
+    <string name="status">Status</string>
+    <string name="mentor">Mentor</string>
+    <string name="mentor_phone">Mentor Phone</string>
+    <string name="mentor_email">Mentor Email</string>
+    <string name="notes">Notes</string>
 </resources>

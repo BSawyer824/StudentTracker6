@@ -10,10 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.wgu_android.studenttracker6.Entities.CourseEntity;
-import com.wgu_android.studenttracker6.Entities.TermEntity;
 import com.wgu_android.studenttracker6.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,7 +42,18 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final CourseEntity course = mCourses.get(position);
+
+        //assign start and end dates to a string
+        Date startDate = course.getCourseStart();
+        Date endDate = course.getCourseEnd();
+        DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        String strDate = dateFormat.format(startDate);
+        String strDateEnd = dateFormat.format(endDate);
+        String label = strDate + "  to  " + strDateEnd;
+
         holder.mTextViewCourseName.setText(course.getCourseName());
+        holder.mTextViewCourseDates.setText(label);
     }
 
     @Override
