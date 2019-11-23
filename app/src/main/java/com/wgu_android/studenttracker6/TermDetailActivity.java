@@ -120,7 +120,7 @@ public class TermDetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         //Save Button
         if (item.getItemId() == android.R.id.home) {
-            //saveAndReturn();
+            saveAndReturn();
             return true;
         } else if (item.getItemId() == R.id.action_delete_term) {
             //mViewModel.deleteTerm();
@@ -129,6 +129,19 @@ public class TermDetailActivity extends AppCompatActivity {
 
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        //Back Button
+        saveAndReturn();
+    }
+
+    private void saveAndReturn() {
+        mViewModel.saveTerm(mTextViewTermName.getText().toString());  //for testing just the Term Name
+        //mViewModel.saveTerm(mTextViewTermName.getText().toString(), myCalendarStart.getTime(), myCalendarEnd.getTime()); //To send Name and Dates
+        finish();
     }
 
 }
