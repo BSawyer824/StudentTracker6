@@ -5,9 +5,16 @@ package com.wgu_android.studenttracker6.Entities;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import static androidx.room.ForeignKey.CASCADE;
+
+//@Entity(tableName="term_course_table", primaryKeys = {"term_id", "course_id"}, foreignKeys = {
+//        @ForeignKey(entity = TermEntity.class, parentColumns = "term_id", childColumns = "term_id", onDelete = CASCADE),
+//        @ForeignKey(entity = CourseEntity.class, parentColumns = "course_id", childColumns = "course_id", onDelete = CASCADE)
+//        })
 @Entity(tableName="term_course_table")
 public class TermCourseEntity {
 
