@@ -32,6 +32,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.wgu_android.studenttracker6.Utilities.Constants.NEW_TERM_ACTIVITY_REQUEST_CODE;
+
 public class TermSummaryActivity extends AppCompatActivity {
 
     @BindView(R.id.recyclerView_Terms)
@@ -41,7 +43,7 @@ public class TermSummaryActivity extends AppCompatActivity {
     @BindView(R.id.recyclerView_Assessments)
     RecyclerView mRecyclerViewAssessments;
 
-    public static final int NEW_TERM_ACTIVITY_REQUEST_CODE = 1;
+
     private List<TermEntity> termData = new ArrayList<>();
     private TermAdapter mTermAdapter;
     private List<AssessmentEntity> assessmentData = new ArrayList<>();

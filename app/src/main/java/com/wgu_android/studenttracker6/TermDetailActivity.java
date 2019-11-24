@@ -63,7 +63,7 @@ public class TermDetailActivity extends AppCompatActivity {
 
     private List<CourseEntity> courseData = new ArrayList<>();
     private CourseAdapter mAdapter;
-    public static final int NEW_COURSE_ACTIVITY_REQUEST_CODE = 1;
+
 
 
     @Override
