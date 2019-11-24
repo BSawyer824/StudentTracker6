@@ -17,7 +17,7 @@ import java.util.List;
 public class TermSummaryViewModel extends AndroidViewModel {
 
     public LiveData<List<TermEntity>> mTerms;
-    public List<CourseEntity> mCourses;
+    public LiveData<List<CourseEntity>> mCourses;
     public List<AssessmentEntity> mAssessments;
     private AppRepository mRepository;
 
