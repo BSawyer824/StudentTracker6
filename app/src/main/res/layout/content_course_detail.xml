@@ -24,7 +24,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.214"
+        app:layout_constraintHorizontal_bias="0.419"
         app:layout_constraintStart_toEndOf="@+id/textViewCourseName"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,8 +41,8 @@
         android:id="@+id/editTextCourseStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="12dp"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintStart_toEndOf="@+id/textViewCourseStart"
@@ -61,8 +61,8 @@
         android:id="@+id/editTextCourseEnd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="12dp"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintStart_toEndOf="@+id/textViewCourseEnd"
@@ -72,44 +72,46 @@
         android:id="@+id/textViewStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="36dp"
         android:text="@string/status"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCourseEnd" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewNotes" />
 
     <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="297dp"
-        android:layout_height="31dp"
-        android:layout_marginStart="56dp"
+        android:id="@+id/spinner_status"
+        android:layout_width="203dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="72dp"
         android:layout_marginTop="12dp"
         app:layout_constraintStart_toEndOf="@+id/textViewStatus"
-        app:layout_constraintTop_toBottomOf="@+id/editTextCourseEnd" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextNotes" />
 
     <TextView
         android:id="@+id/textViewMentor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="36dp"
         android:text="@string/mentor"
-        tools:layout_editor_absoluteX="6dp"
-        tools:layout_editor_absoluteY="232dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCourseEnd" />
 
     <EditText
         android:id="@+id/editTextMentor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintStart_toEndOf="@+id/textViewMentor"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextCourseEnd" />
 
     <EditText
         android:id="@+id/editTextPhone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="12dp"
         android:ems="10"
         android:inputType="phone"
@@ -120,7 +122,7 @@
         android:id="@+id/textViewPhone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="36dp"
         android:text="@string/mentor_phone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewMentor" />
@@ -138,8 +140,8 @@
         android:id="@+id/editTextEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="4dp"
         android:ems="10"
         android:inputType="textEmailAddress"
         app:layout_constraintStart_toEndOf="@+id/textViewEmail"
@@ -149,8 +151,7 @@
         android:id="@+id/textViewNotes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="20dp"
         android:text="@string/notes"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewEmail" />
@@ -159,11 +160,11 @@
         android:id="@+id/editTextNotes"
         android:layout_width="298dp"
         android:layout_height="46dp"
-        android:layout_marginStart="56dp"
+        android:layout_marginStart="72dp"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:gravity="start|top"
-        android:inputType="textMultiLine"
+        android:inputType="textMultiLine|textCapSentences"
         app:layout_constraintStart_toEndOf="@+id/textViewNotes"
         app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
 
@@ -174,5 +175,6 @@
         android:layout_marginTop="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNotes" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextNotes"
+        app:layout_constraintVertical_bias="1.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
