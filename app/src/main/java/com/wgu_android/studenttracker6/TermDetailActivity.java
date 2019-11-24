@@ -1,6 +1,7 @@
 package com.wgu_android.studenttracker6;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -32,7 +33,10 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
+import static com.wgu_android.studenttracker6.Utilities.Constants.NEW_COURSE_ACTIVITY_REQUEST_CODE;
+import static com.wgu_android.studenttracker6.Utilities.Constants.NEW_TERM_ACTIVITY_REQUEST_CODE;
 import static com.wgu_android.studenttracker6.Utilities.Constants.TERM_KEY_ID;
 
 public class TermDetailActivity extends AppCompatActivity {
@@ -40,13 +44,14 @@ public class TermDetailActivity extends AppCompatActivity {
     //*************************************************
     //Term Variables
     @BindView(R.id.editTextTermName)
-    EditText mTextViewTermName;
+    EditText mEditTextTermName;
 
     @BindView(R.id.editTextStartDate)
     EditText mEditTextStartDate;
 
     @BindView(R.id.editTextEndDate)
     EditText mEditTextEndDate;
+
 
     final Calendar myCalendarStart = Calendar.getInstance();
     final Calendar myCalendarEnd = Calendar.getInstance();
@@ -81,12 +86,12 @@ public class TermDetailActivity extends AppCompatActivity {
         initViewModel();
 
         //Add a new Assessment
-        FloatingActionButton fab = findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab_newcourse);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(TermDetailActivity.this, CourseDetailActivity.class);
+                startActivityForResult(intent, NEW_COURSE_ACTIVITY_REQUEST_CODE);
             }
         });
 
@@ -104,7 +109,6 @@ public class TermDetailActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
-                // TODO Auto-generated method stub
                 myCalendarStart.set(Calendar.YEAR, year);
                 myCalendarStart.set(Calendar.MONTH, monthOfYear);
                 myCalendarStart.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -117,7 +121,6 @@ public class TermDetailActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 new DatePickerDialog(TermDetailActivity.this, startDate, myCalendarStart
                         .get(Calendar.YEAR), myCalendarStart.get(Calendar.MONTH),
                         myCalendarStart.get(Calendar.DAY_OF_MONTH)).show();
@@ -130,7 +133,6 @@ public class TermDetailActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
-                // TODO Auto-generated method stub
                 myCalendarEnd.set(Calendar.YEAR, year);
                 myCalendarEnd.set(Calendar.MONTH, monthOfYear);
                 myCalendarEnd.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -143,7 +145,6 @@ public class TermDetailActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 new DatePickerDialog(TermDetailActivity.this, endDate, myCalendarEnd
                         .get(Calendar.YEAR), myCalendarEnd.get(Calendar.MONTH),
                         myCalendarEnd.get(Calendar.DAY_OF_MONTH)).show();
@@ -169,7 +170,7 @@ public class TermDetailActivity extends AppCompatActivity {
         mViewModel.mLiveTerm.observe(this, new Observer<TermEntity>() {
             @Override
             public void onChanged(TermEntity termEntity) {
-                mTextViewTermName.setText(termEntity.getTermName());
+                mEditTextTermName.setText(termEntity.getTermName());
                 setLabelStart(termEntity);
                 setLabelEnd(termEntity);
             }
@@ -220,7 +221,7 @@ public class TermDetailActivity extends AppCompatActivity {
 
     private void saveAndReturn() {
         //mViewModel.saveTerm(mTextViewTermName.getText().toString());  //for testing just the Term Name
-        mViewModel.saveTerm(mTextViewTermName.getText().toString(), myCalendarStart.getTime(), myCalendarEnd.getTime()); //To send Name and Dates
+        mViewModel.saveTerm(mEditTextTermName.getText().toString(), myCalendarStart.getTime(), myCalendarEnd.getTime()); //To send Name and Dates
         finish();
     }
 
