@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.wgu_android.studenttracker6.Database.AppRepository;
@@ -19,7 +20,7 @@ import java.util.concurrent.Executors;
 public class TermDetailViewModel extends AndroidViewModel {
 
     public MutableLiveData<TermEntity> mLiveTerm = new MutableLiveData<>();
-    public List<CourseEntity> mCourse;
+    public LiveData<List<CourseEntity>> mCourse;
     private AppRepository mRepository;
     private Executor executor = Executors.newSingleThreadExecutor();
 

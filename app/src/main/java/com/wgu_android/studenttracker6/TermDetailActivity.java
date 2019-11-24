@@ -95,11 +95,6 @@ public class TermDetailActivity extends AppCompatActivity {
             }
         });
 
-
-        //Add Sample Data
-        courseData.addAll(mViewModel.mCourse);
-
-
         //*****************************************************
         //Make Start and End Date fields have a calendar date picker
 
@@ -160,13 +155,13 @@ public class TermDetailActivity extends AppCompatActivity {
         DividerItemDecoration divider = new DividerItemDecoration(mRecyclerView.getContext(), layoutManager.getOrientation());
         mRecyclerView.addItemDecoration(divider);
 
-        mAdapter = new CourseAdapter(courseData, this);
-        mRecyclerView.setAdapter(mAdapter);
+
     }
 
     private void initViewModel() {
         mViewModel = ViewModelProviders.of(this).get(TermDetailViewModel.class);
 
+        //Observe the Term that is being edited or added
         mViewModel.mLiveTerm.observe(this, new Observer<TermEntity>() {
             @Override
             public void onChanged(TermEntity termEntity) {
@@ -186,6 +181,24 @@ public class TermDetailActivity extends AppCompatActivity {
             int termId = extras.getInt(TERM_KEY_ID);
             mViewModel.loadData(termId);
         }
+
+        //Observe the recycler view list of courses
+        final Observer<List<CourseEntity>> courseObserver = new Observer<List<CourseEntity>>() {
+            @Override
+            public void onChanged(List<CourseEntity> courseEntities) {
+                courseData.clear();
+                courseData.addAll(courseEntities);
+
+                if (mAdapter == null) {
+                    mAdapter = new CourseAdapter(courseData, TermDetailActivity.this);
+                    mRecyclerView.setAdapter(mAdapter);
+                } else {
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+        };
+
+        mViewModel.mCourse.observe(this, courseObserver);
     }
 
 

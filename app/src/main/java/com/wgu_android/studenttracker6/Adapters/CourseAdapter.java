@@ -1,6 +1,7 @@
 package com.wgu_android.studenttracker6.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +10,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.wgu_android.studenttracker6.CourseDetailActivity;
 import com.wgu_android.studenttracker6.Entities.CourseEntity;
 import com.wgu_android.studenttracker6.R;
+import com.wgu_android.studenttracker6.TermDetailActivity;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -20,6 +23,11 @@ import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_KEY_ID;
+import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_NAME;
+import static com.wgu_android.studenttracker6.Utilities.Constants.TERM_KEY_ID;
+import static com.wgu_android.studenttracker6.Utilities.Constants.TERM_NAME;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
 
@@ -54,6 +62,18 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
 
         holder.mTextViewCourseName.setText(course.getCourseName());
         holder.mTextViewCourseDates.setText(label);
+
+
+        //When a Course is clicked, send selected course to the next activity
+        holder.mTextViewCourseName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, CourseDetailActivity.class);
+                intent.putExtra(COURSE_KEY_ID, course.getCourseID());
+                intent.putExtra(COURSE_NAME, course.getCourseName());
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -16,7 +16,7 @@ public class AppRepository {
     private static AppRepository ourInstance;
 
     public LiveData<List<TermEntity>> mTerms;
-    public List<CourseEntity> mCourses;
+    public LiveData<List<CourseEntity>> mCourses;
     public List<AssessmentEntity> mAssessments;
     private AppDatabase mDb;
     private Executor executor = Executors.newSingleThreadExecutor();
@@ -30,11 +30,9 @@ public class AppRepository {
 
     private AppRepository(Context context) {
 
-
-
         mDb = AppDatabase.getDatabase(context);
         mTerms = getAllTerms();
-        mCourses = SampleData.getCourse();
+        mCourses = getAllCourses();
         mAssessments = SampleData.getAssessment();
 
     }
@@ -84,6 +82,44 @@ public class AppRepository {
             @Override
             public void run() {
                 mDb.termDao().deleteTerm(term);
+            }
+        });
+    }
+
+
+    //*************************************************************
+    //Course Methods
+    private LiveData<List<CourseEntity>> getAllCourses() {
+        return mDb.courseDao().getAllCourses();
+    }
+
+    public void deleteAllCourses() {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                mDb.courseDao().deleteAll();
+            }
+        });
+    }
+
+    public CourseEntity getCourseById(int courseId) {
+        return mDb.courseDao().getCourseById(courseId);
+    }
+
+    public void insertCourse(final CourseEntity course) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                mDb.courseDao().insert(course);
+            }
+        });
+    }
+
+    public void deleteCourse(final CourseEntity course) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                mDb.courseDao().deleteCourse(course);
             }
         });
     }

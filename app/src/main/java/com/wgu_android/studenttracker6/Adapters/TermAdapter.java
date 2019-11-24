@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.wgu_android.studenttracker6.CourseDetailActivity;
 import com.wgu_android.studenttracker6.Entities.TermEntity;
 import com.wgu_android.studenttracker6.R;
 import com.wgu_android.studenttracker6.TermDetailActivity;
@@ -22,6 +23,7 @@ import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 
 import static com.wgu_android.studenttracker6.Utilities.Constants.TERM_KEY_ID;
 import static com.wgu_android.studenttracker6.Utilities.Constants.TERM_NAME;
@@ -63,7 +65,7 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.ViewHolder> {
         holder.mTextView_TermDates.setText(label);
 
 
-        //When clicked, send selected term to the next activity
+        //When a Term is clicked, send selected term to the next activity
         holder.mTextView_TermName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,6 +91,7 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.ViewHolder> {
 
         @BindView(R.id.textView_Term_Dates)
         TextView mTextView_TermDates;
+
 
 
         public ViewHolder(@NonNull View itemView) {
