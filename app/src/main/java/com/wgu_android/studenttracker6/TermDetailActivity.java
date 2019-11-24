@@ -195,13 +195,13 @@ public class TermDetailActivity extends AppCompatActivity {
         mViewModel.mCourse.observe(this, courseObserver);
     }
 
+    //*****************************************************************************************
+    //menu methods
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.menu_termdetail, menu);
         return true;
-
     }
 
     @Override
@@ -214,11 +214,8 @@ public class TermDetailActivity extends AppCompatActivity {
             mViewModel.deleteTerm();
             finish();
         }
-
-
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public void onBackPressed() {
@@ -232,6 +229,8 @@ public class TermDetailActivity extends AppCompatActivity {
         finish();
     }
 
+    //**************************************************************************************
+    //Date Picker Methods
 
     private void updateLabelStart() {
         String myFormat = "MM/dd/yy"; //In which you need put here

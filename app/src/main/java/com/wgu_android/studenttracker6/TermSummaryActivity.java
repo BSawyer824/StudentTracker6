@@ -138,15 +138,15 @@ public class TermSummaryActivity extends AppCompatActivity {
             addSampleData();
             return true;
         } else if (id == R.id.action_delete_all_data) {
-            deleteAllTerm();
+            deleteAllData();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void deleteAllTerm() {
-        mViewModel.deleteAllTerms();
+    private void deleteAllData() {
+        mViewModel.deleteAllData();
     }
 
     private void addSampleData() {

@@ -35,7 +35,10 @@ public class TermSummaryViewModel extends AndroidViewModel {
         mRepository.addSampleData();
     }
 
-    public void deleteAllTerms() {
+    public void deleteAllData() {
+
+        //deletes all data in all tables
         mRepository.deleteAllTerms();
+        mRepository.deleteAllCourses();
     }
 }

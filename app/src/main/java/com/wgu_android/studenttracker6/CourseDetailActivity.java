@@ -151,6 +151,14 @@ public class CourseDetailActivity extends AppCompatActivity implements AdapterVi
             @Override
             public void onChanged(CourseEntity courseEntity) {
                 mEditTextCourseName.setText(courseEntity.getCourseName());
+                setLabelStart(courseEntity);
+                setLabelEnd(courseEntity);
+                mEditTextMentor.setText(courseEntity.getCourseMentorName());
+                mEditTextPhone.setText(courseEntity.getCourseMentorPhone());
+                mEditTextEmail.setText(courseEntity.getCourseMentorEmail());
+                mEditTextNotes.setText(courseEntity.getCourseNotes());
+                spinnerSelectedItem = courseEntity.getCourseStatus();
+                //TODO how do I pull in the course status and assign it to the spinner
             }
         });
 
@@ -171,10 +179,8 @@ public class CourseDetailActivity extends AppCompatActivity implements AdapterVi
     //menu methods
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.menu_coursedetail, menu);
         return true;
-
     }
 
     @Override
@@ -187,7 +193,6 @@ public class CourseDetailActivity extends AppCompatActivity implements AdapterVi
             mViewModel.deleteCourse();
             finish();
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -199,7 +204,8 @@ public class CourseDetailActivity extends AppCompatActivity implements AdapterVi
     }
 
     private void saveAndReturn() {
-        //mViewModel.saveCourse(mEditTextCourseName.getText().toString());  //for testing just the Term Name
+
+        spinnerSelectedItem = spinner.getSelectedItem().toString();
 
         mViewModel.saveCourse(mEditTextCourseName.getText().toString(), myCalendarStart.getTime(),
                 myCalendarEnd.getTime(), mEditTextMentor.getText().toString(), mEditTextPhone.getText().toString(),
@@ -218,14 +224,22 @@ public class CourseDetailActivity extends AppCompatActivity implements AdapterVi
         mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(mSpinnerAdapter);
         spinner.setOnItemSelectedListener(this);
+
+        //TODO not correctly displaying the status in the spinner from the DB
+        if (spinnerSelectedItem != null) {
+            int spinnerPosition = mSpinnerAdapter.getPosition(spinnerSelectedItem);
+            spinner.setSelection(spinnerPosition);
+        }
+
     }
+
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String mSelectedItem = parent.getItemAtPosition(position).toString();
         spinnerSelectedItem = mSelectedItem;
-        //TODO change from toast to load to DB
-        Toast.makeText(parent.getContext(), mSelectedItem, Toast.LENGTH_SHORT).show();
+
+        //Toast.makeText(parent.getContext(), spinnerSelectedItem, Toast.LENGTH_SHORT);
     }
 
     @Override

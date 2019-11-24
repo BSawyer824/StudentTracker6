@@ -61,7 +61,7 @@ public class CourseDetailViewModel extends AndroidViewModel {
             course.setCourseStart(courseStart);
             course.setCourseEnd(courseEnd);
             course.setCourseStatus(courseStatus);
-            course.setCourseMentorName(courseName);
+            course.setCourseMentorName(mentorName);
             course.setCourseMentorPhone(mentorPhone);
             course.setCourseMentorEmail(mentorEmail);
             course.setCourseNotes(courseNotes);
