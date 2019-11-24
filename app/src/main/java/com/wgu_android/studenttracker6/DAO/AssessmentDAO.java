@@ -30,7 +30,7 @@ public interface AssessmentDAO {
     @Query("SELECT * FROM assessment_table ORDER BY assessment_id ASC")
     LiveData<List<AssessmentEntity>> getAllAssessments();
 
-//    @Query("SELECT * FROM assessment_table WHERE assessment_id = :id")
-//    AssessmentEntity getAssessmentById(int id);
+    @Query("SELECT * FROM assessment_table WHERE assessment_id = :id")
+    AssessmentEntity getAssessmentById(int id);
 
 }

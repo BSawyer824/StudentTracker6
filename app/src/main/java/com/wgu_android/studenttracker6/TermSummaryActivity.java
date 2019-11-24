@@ -37,17 +37,10 @@ import static com.wgu_android.studenttracker6.Utilities.Constants.NEW_TERM_ACTIV
 public class TermSummaryActivity extends AppCompatActivity {
 
     @BindView(R.id.recyclerView_Terms)
-    RecyclerView mRecyclerViewTerms;
-
-
-    @BindView(R.id.recyclerView_Assessments)
-    RecyclerView mRecyclerViewAssessments;
-
+    RecyclerView mRecyclerView;
 
     private List<TermEntity> termData = new ArrayList<>();
-    private TermAdapter mTermAdapter;
-    private List<AssessmentEntity> assessmentData = new ArrayList<>();
-    private AssessmentsAdapter mAssessmentAdapter;
+    private TermAdapter mAdapter;
     private TermSummaryViewModel mViewModel;
 
 
@@ -73,8 +66,6 @@ public class TermSummaryActivity extends AppCompatActivity {
             }
         });
 
-        //Add Sample Data
-        assessmentData.addAll(mViewModel.mAssessments);
     }
 
     private void initViewModel() {
@@ -85,12 +76,12 @@ public class TermSummaryActivity extends AppCompatActivity {
                 termData.clear();
                 termData.addAll(termEntities);
 
-                if (mTermAdapter == null) {
-                    mTermAdapter = new TermAdapter(termData, TermSummaryActivity.this);
-                    mRecyclerViewTerms.setAdapter(mTermAdapter);
+                if (mAdapter == null) {
+                    mAdapter = new TermAdapter(termData, TermSummaryActivity.this);
+                    mRecyclerView.setAdapter(mAdapter);
                 } else {
                     //refreshes from adapter when data changes
-                    mTermAdapter.notifyDataSetChanged();
+                    mAdapter.notifyDataSetChanged();
                 }
             }
         };
@@ -103,20 +94,13 @@ public class TermSummaryActivity extends AppCompatActivity {
     private void initRecyclerView() {
 
 
-        mRecyclerViewTerms.setHasFixedSize(true);
+        mRecyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManagerTerms = new LinearLayoutManager(this);
-        mRecyclerViewTerms.setLayoutManager(layoutManagerTerms);
+        mRecyclerView.setLayoutManager(layoutManagerTerms);
 
-        DividerItemDecoration divider = new DividerItemDecoration(mRecyclerViewTerms.getContext(), layoutManagerTerms.getOrientation());
-        mRecyclerViewTerms.addItemDecoration(divider);
+        DividerItemDecoration divider = new DividerItemDecoration(mRecyclerView.getContext(), layoutManagerTerms.getOrientation());
+        mRecyclerView.addItemDecoration(divider);
 
-        mRecyclerViewAssessments.setHasFixedSize(true);
-        LinearLayoutManager layoutManagerAssessments = new LinearLayoutManager(this);
-        mRecyclerViewAssessments.setLayoutManager(layoutManagerAssessments);
-
-
-        mAssessmentAdapter = new AssessmentsAdapter(assessmentData, this);
-        mRecyclerViewAssessments.setAdapter(mAssessmentAdapter);
     }
 
     @Override

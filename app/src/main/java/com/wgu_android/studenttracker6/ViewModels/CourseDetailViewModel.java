@@ -5,19 +5,23 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.wgu_android.studenttracker6.Database.AppRepository;
+import com.wgu_android.studenttracker6.Entities.AssessmentEntity;
 import com.wgu_android.studenttracker6.Entities.CourseEntity;
 import com.wgu_android.studenttracker6.Entities.TermEntity;
 
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class CourseDetailViewModel extends AndroidViewModel {
 
     public MutableLiveData<CourseEntity> mLiveCourse = new MutableLiveData<>();
+    public LiveData<List<AssessmentEntity>> mAssessment;
     private AppRepository mRepository;
     private Executor executor = Executors.newSingleThreadExecutor();
 
@@ -26,6 +30,7 @@ public class CourseDetailViewModel extends AndroidViewModel {
         super(application);
 
         mRepository = AppRepository.getInstance((getApplication()));
+        mAssessment = mRepository.mAssessments;
     }
 
     public void loadData(final int courseId) {

@@ -17,7 +17,7 @@ public class AppRepository {
 
     public LiveData<List<TermEntity>> mTerms;
     public LiveData<List<CourseEntity>> mCourses;
-    public List<AssessmentEntity> mAssessments;
+    public LiveData<List<AssessmentEntity>> mAssessments;
     private AppDatabase mDb;
     private Executor executor = Executors.newSingleThreadExecutor();
 
@@ -33,7 +33,7 @@ public class AppRepository {
         mDb = AppDatabase.getDatabase(context);
         mTerms = getAllTerms();
         mCourses = getAllCourses();
-        mAssessments = SampleData.getAssessment();
+        mAssessments = getAllAssessments();
 
     }
 
@@ -123,4 +123,42 @@ public class AppRepository {
             }
         });
     }
+
+    //*************************************************************
+    //Assessment Methods
+    private LiveData<List<AssessmentEntity>> getAllAssessments() {
+        return mDb.assessmentDao().getAllAssessments();
+    }
+
+    public void deleteAllAssessments() {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                mDb.assessmentDao().deleteAll();
+            }
+        });
+    }
+
+    public AssessmentEntity getAssessmentById(int assessmentId) {
+        return mDb.assessmentDao().getAssessmentById(assessmentId);
+    }
+
+    public void insertAssessment(final AssessmentEntity assessment) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                mDb.assessmentDao().insert(assessment);
+            }
+        });
+    }
+
+    public void deleteAssessment(final AssessmentEntity assessment) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                mDb.assessmentDao().deleteAssessment(assessment);
+            }
+        });
+    }
+    
 }

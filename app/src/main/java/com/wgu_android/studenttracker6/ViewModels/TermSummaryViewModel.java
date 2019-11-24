@@ -17,8 +17,7 @@ import java.util.List;
 public class TermSummaryViewModel extends AndroidViewModel {
 
     public LiveData<List<TermEntity>> mTerms;
-    public LiveData<List<CourseEntity>> mCourses;
-    public List<AssessmentEntity> mAssessments;
+
     private AppRepository mRepository;
 
     public TermSummaryViewModel(@NonNull Application application) {
@@ -26,8 +25,7 @@ public class TermSummaryViewModel extends AndroidViewModel {
 
         mRepository = AppRepository.getInstance(application.getApplicationContext());
         mTerms = mRepository.mTerms;
-        mCourses = mRepository.mCourses;
-        mAssessments = mRepository.mAssessments;
+
 
     }
 
@@ -40,5 +38,6 @@ public class TermSummaryViewModel extends AndroidViewModel {
         //deletes all data in all tables
         mRepository.deleteAllTerms();
         mRepository.deleteAllCourses();
+        mRepository.deleteAllAssessments();
     }
 }

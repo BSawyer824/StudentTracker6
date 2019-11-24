@@ -5,6 +5,9 @@ import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.wgu_android.studenttracker6.Adapters.AssessmentsAdapter;
+import com.wgu_android.studenttracker6.Adapters.CourseAdapter;
+import com.wgu_android.studenttracker6.Entities.AssessmentEntity;
 import com.wgu_android.studenttracker6.Entities.CourseEntity;
 import com.wgu_android.studenttracker6.Entities.TermEntity;
 import com.wgu_android.studenttracker6.ViewModels.CourseDetailViewModel;
@@ -13,6 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,8 +31,10 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -71,6 +79,16 @@ public class CourseDetailActivity extends AppCompatActivity implements AdapterVi
     private String spinnerSelectedItem;
     private boolean mNewCourse;
 
+    //****************************************************************************
+    //Assessment Variables
+    @BindView(R.id.recyclerViewAssessments)
+    RecyclerView mRecyclerView;
+
+    private List<AssessmentEntity> assessmentData = new ArrayList<>();
+    private AssessmentsAdapter mAdapter;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,8 +102,11 @@ public class CourseDetailActivity extends AppCompatActivity implements AdapterVi
 
         ButterKnife.bind(this);
         initSpinner();
+        initRecyclerView();
         initViewModel();
-        
+
+
+        //Add a new Assessment to the Course
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,8 +161,11 @@ public class CourseDetailActivity extends AppCompatActivity implements AdapterVi
                         myCalendarEnd.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+
     }
 
+    //*****************************************************************************
+    //View Model and Recycler View Methods
     private void initViewModel() {
 
         mViewModel = ViewModelProviders.of(this).get(CourseDetailViewModel.class);
@@ -162,7 +186,6 @@ public class CourseDetailActivity extends AppCompatActivity implements AdapterVi
             }
         });
 
-
         //Check to see if a course was passed, and if so, display it
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
@@ -173,6 +196,33 @@ public class CourseDetailActivity extends AppCompatActivity implements AdapterVi
             int courseId = extras.getInt(COURSE_KEY_ID);
             mViewModel.loadData(courseId);
         }
+
+        //Observe Assessment Recycler View for changes
+        final Observer<List<AssessmentEntity>> assessmentObserver = new Observer<List<AssessmentEntity>>() {
+            @Override
+            public void onChanged(List<AssessmentEntity> assessmentEntities) {
+                assessmentData.clear();
+                assessmentData.addAll(assessmentEntities);
+
+                if (mAdapter == null) {
+                    mAdapter = new AssessmentsAdapter(assessmentData, CourseDetailActivity.this);
+                    mRecyclerView.setAdapter(mAdapter);
+                } else {
+                    mAdapter.notifyDataSetChanged();;
+                }
+            }
+        };
+
+        mViewModel.mAssessment.observe(this, assessmentObserver);
+    }
+
+    private void initRecyclerView() {
+        mRecyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        DividerItemDecoration divider = new DividerItemDecoration(mRecyclerView.getContext(), layoutManager.getOrientation());
+        mRecyclerView.addItemDecoration(divider);
     }
 
     //*****************************************************************************************
