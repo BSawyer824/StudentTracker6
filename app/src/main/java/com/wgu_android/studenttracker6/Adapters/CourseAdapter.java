@@ -64,7 +64,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         holder.mTextViewCourseDates.setText(label);
 
 
-        //When a Course is clicked, send selected course to the next activity
+        //When a Course is clicked in the recycler view, send selected course to the next activity
         holder.mTextViewCourseName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

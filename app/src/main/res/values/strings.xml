@@ -21,6 +21,7 @@
     <string name="mentor_phone">Mentor Phone</string>
     <string name="mentor_email">Mentor Email</string>
     <string name="notes">Notes</string>
+    <string name="delete_course">Delete Course</string>
 
     <string-array name="spinner_status">
         <item>Completed</item>

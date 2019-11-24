@@ -44,10 +44,10 @@ public class CourseEntity {
     //*********************************************************
     //Constructor
     @Ignore
-    public CourseEntity(int courseID, String courseName, Date courseStart, Date courseEnd, String courseStatus,
-                        String courseMentorName, String courseMentorPhone, String courseMentorEmail) {
+    public CourseEntity(String courseName, Date courseStart, Date courseEnd, String courseStatus,
+                        String courseMentorName, String courseMentorPhone, String courseMentorEmail,
+                        String courseNotes) {
 
-        this.courseID = courseID;
         this.courseName = courseName;
         this.courseStart = courseStart;
         this.courseEnd = courseEnd;
@@ -55,7 +55,9 @@ public class CourseEntity {
         this.courseMentorPhone = courseMentorPhone;
         this.courseMentorEmail = courseMentorEmail;
         this.courseStatus = courseStatus;
+        this.courseNotes = courseNotes;
     }
+
 
     @Ignore
     public CourseEntity(String courseName) {

@@ -14,6 +14,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,6 +26,7 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -48,11 +51,24 @@ public class CourseDetailActivity extends AppCompatActivity implements AdapterVi
     @BindView(R.id.editTextCourseEnd)
     EditText mEditTextEndDate;
 
+    @BindView(R.id.editTextMentor)
+    EditText mEditTextMentor;
+
+    @BindView(R.id.editTextPhone)
+    EditText mEditTextPhone;
+
+    @BindView(R.id.editTextEmail)
+    EditText mEditTextEmail;
+
+    @BindView(R.id.editTextNotes)
+    EditText mEditTextNotes;
+
     final Calendar myCalendarStart = Calendar.getInstance();
     final Calendar myCalendarEnd = Calendar.getInstance();
     DatePickerDialog.OnDateSetListener startDate;
     DatePickerDialog.OnDateSetListener endDate;
     private CourseDetailViewModel mViewModel;
+    private String spinnerSelectedItem;
     private boolean mNewCourse;
 
     @Override
@@ -61,6 +77,9 @@ public class CourseDetailActivity extends AppCompatActivity implements AdapterVi
         setContentView(R.layout.activity_course_detail);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_save);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         ButterKnife.bind(this);
@@ -148,6 +167,49 @@ public class CourseDetailActivity extends AppCompatActivity implements AdapterVi
         }
     }
 
+    //*****************************************************************************************
+    //menu methods
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_coursedetail, menu);
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //Save Button
+        if (item.getItemId() == android.R.id.home) {
+            saveAndReturn();
+            return true;
+        } else if (item.getItemId() == R.id.action_delete_term) {
+            mViewModel.deleteCourse();
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        //Back Button
+        saveAndReturn();
+    }
+
+    private void saveAndReturn() {
+        //mViewModel.saveCourse(mEditTextCourseName.getText().toString());  //for testing just the Term Name
+
+        mViewModel.saveCourse(mEditTextCourseName.getText().toString(), myCalendarStart.getTime(),
+                myCalendarEnd.getTime(), mEditTextMentor.getText().toString(), mEditTextPhone.getText().toString(),
+                mEditTextEmail.getText().toString(), mEditTextNotes.getText().toString(), spinnerSelectedItem);
+
+        finish();
+    }
+
+
+
     //***************************************************************************************
     //spinner methods
     private void initSpinner() {
@@ -161,7 +223,7 @@ public class CourseDetailActivity extends AppCompatActivity implements AdapterVi
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String mSelectedItem = parent.getItemAtPosition(position).toString();
-
+        spinnerSelectedItem = mSelectedItem;
         //TODO change from toast to load to DB
         Toast.makeText(parent.getContext(), mSelectedItem, Toast.LENGTH_SHORT).show();
     }

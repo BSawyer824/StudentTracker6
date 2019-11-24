@@ -50,7 +50,6 @@ public class TermDetailViewModel extends AndroidViewModel {
                 return;
             } else {
                 term = new TermEntity(termName.trim(), start, end);
-                //todo replace with date references from the activity
             }
 
         } else {
@@ -58,7 +57,6 @@ public class TermDetailViewModel extends AndroidViewModel {
             term.setTermName(termName);
             term.setTermStart(start);
             term.setTermEnd(end);
-            //todo apply term start date and end date
         }
 
         //Save to Repository

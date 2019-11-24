@@ -6,6 +6,8 @@ public class Constants {
     public static final String TERM_NAME = "term_name";
     public static final String COURSE_KEY_ID = "course_key_id";
     public static final String COURSE_NAME = "course_name";
+    public static final String ASSESMENT_KEY_ID = "assessment_key_id";
+    public static final String ASSESSMENT_NAME = "assessment_name";
     public static final int NEW_TERM_ACTIVITY_REQUEST_CODE = 1;
     public static final int NEW_COURSE_ACTIVITY_REQUEST_CODE = 1;
 

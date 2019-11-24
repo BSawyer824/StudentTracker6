@@ -85,7 +85,7 @@ public class TermDetailActivity extends AppCompatActivity {
         initRecyclerView();
         initViewModel();
 
-        //Add a new Assessment
+        //Add a new Course
         FloatingActionButton fab = findViewById(R.id.fab_newcourse);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,7 +100,6 @@ public class TermDetailActivity extends AppCompatActivity {
 
         //Start Date - Date Picker
         startDate = new DatePickerDialog.OnDateSetListener() {
-
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
@@ -109,11 +108,9 @@ public class TermDetailActivity extends AppCompatActivity {
                 myCalendarStart.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 updateLabelStart();
             }
-
         };
 
         mEditTextStartDate.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 new DatePickerDialog(TermDetailActivity.this, startDate, myCalendarStart
@@ -124,7 +121,6 @@ public class TermDetailActivity extends AppCompatActivity {
 
         //End Date - Date Picker
         endDate = new DatePickerDialog.OnDateSetListener() {
-
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
@@ -133,11 +129,9 @@ public class TermDetailActivity extends AppCompatActivity {
                 myCalendarEnd.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 updateLabelEnd();
             }
-
         };
 
         mEditTextEndDate.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 new DatePickerDialog(TermDetailActivity.this, endDate, myCalendarEnd
