@@ -11,17 +11,13 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-//@Entity(tableName="term_course_table", primaryKeys = {"term_id", "course_id"}, foreignKeys = {
-//        @ForeignKey(entity = TermEntity.class, parentColumns = "term_id", childColumns = "term_id", onDelete = CASCADE),
-//        @ForeignKey(entity = CourseEntity.class, parentColumns = "course_id", childColumns = "course_id", onDelete = CASCADE)
-//        })
-@Entity(tableName="term_course_table")
+@Entity(tableName="term_course_table", primaryKeys = {"term_id", "course_id"}, foreignKeys = {
+        @ForeignKey(entity = TermEntity.class, parentColumns = "term_id", childColumns = "term_id", onDelete = CASCADE),
+        @ForeignKey(entity = CourseEntity.class, parentColumns = "course_id", childColumns = "course_id", onDelete = CASCADE)
+        })
+
 public class TermCourseEntity {
 
-    @PrimaryKey
-
-    @ColumnInfo(name="term_course_id")
-    private int term_course_id;
 
     @ColumnInfo(name="term_id")
     private int term_id;
@@ -36,14 +32,6 @@ public class TermCourseEntity {
 
     @Ignore
     public TermCourseEntity() {
-    }
-
-    public int getTerm_course_id() {
-        return term_course_id;
-    }
-
-    public void setTerm_course_id(int term_course_id) {
-        this.term_course_id = term_course_id;
     }
 
     public int getTerm_id() {
@@ -65,8 +53,7 @@ public class TermCourseEntity {
     @Override
     public String toString() {
         return "TermCourseEntity{" +
-                "term_course_id=" + term_course_id +
-                ", term_id=" + term_id +
+                "term_id=" + term_id +
                 ", course_id=" + course_id +
                 '}';
     }
