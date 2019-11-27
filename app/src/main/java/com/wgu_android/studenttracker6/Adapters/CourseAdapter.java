@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.wgu_android.studenttracker6.CourseDetailActivity;
 import com.wgu_android.studenttracker6.Entities.CourseEntity;
 import com.wgu_android.studenttracker6.R;
-import com.wgu_android.studenttracker6.TermDetailActivity;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -26,12 +25,10 @@ import butterknife.ButterKnife;
 
 import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_KEY_ID;
 import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_NAME;
-import static com.wgu_android.studenttracker6.Utilities.Constants.TERM_KEY_ID;
-import static com.wgu_android.studenttracker6.Utilities.Constants.TERM_NAME;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
 
-    private final List<CourseEntity> mCourses;
+    private List<CourseEntity> mCourses;
     private final Context mContext;
 
     public CourseAdapter(List<CourseEntity> mCourses, Context mContext) {
@@ -92,5 +89,10 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public void setCourses(List<CourseEntity> courses) {
+        mCourses = courses;
+        notifyDataSetChanged();
     }
 }

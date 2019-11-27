@@ -29,8 +29,9 @@ public class TermDetailViewModel extends AndroidViewModel {
     public TermDetailViewModel(@NonNull Application application) {
         super(application);
         mRepository = AppRepository.getInstance(getApplication());
-        mCourse = mRepository.getAssociatedCourses(2);
+        mCourse = mRepository.mCourses;
     }
+
 
     public void loadData(final int termId) {
         executor.execute(new Runnable() {
@@ -38,7 +39,7 @@ public class TermDetailViewModel extends AndroidViewModel {
             public void run() {
                 TermEntity term = mRepository.getTermById(termId);
                 mLiveTerm.postValue(term);
-                mCourse = mRepository.getAssociatedCourses(2);
+                mCourse = mRepository.mCourses;
             }
         });
     }
@@ -68,4 +69,10 @@ public class TermDetailViewModel extends AndroidViewModel {
     public void deleteTerm() {
         mRepository.deleteTerm(mLiveTerm.getValue());
     }
+
+
+    public LiveData<List<CourseEntity>> getAllCourses() {
+        return mCourse;
+    }
+
 }

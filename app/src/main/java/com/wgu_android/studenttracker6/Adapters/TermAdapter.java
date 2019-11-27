@@ -10,7 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.wgu_android.studenttracker6.CourseDetailActivity;
 import com.wgu_android.studenttracker6.Entities.TermEntity;
 import com.wgu_android.studenttracker6.R;
 import com.wgu_android.studenttracker6.TermDetailActivity;
@@ -24,7 +23,6 @@ import java.util.TimeZone;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-
 import static com.wgu_android.studenttracker6.Utilities.Constants.TERM_KEY_ID;
 import static com.wgu_android.studenttracker6.Utilities.Constants.TERM_NAME;
 
@@ -32,6 +30,22 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.ViewHolder> {
 
     private final List<TermEntity> mTerms;
     private final Context mContext;
+
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        //manages the view, references any views used to display data
+        @BindView(R.id.textView_Term_Name)
+        TextView mTextView_TermName;
+
+        @BindView(R.id.textView_Term_Dates)
+        TextView mTextView_TermDates;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
 
     public TermAdapter(List<TermEntity> mTerms, Context mContext) {
         this.mTerms = mTerms;
@@ -83,20 +97,4 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.ViewHolder> {
         return mTerms.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        //manages the view, references any views used to display data
-
-        @BindView(R.id.textView_Term_Name)
-        TextView mTextView_TermName;
-
-        @BindView(R.id.textView_Term_Dates)
-        TextView mTextView_TermDates;
-
-
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-    }
 }

@@ -61,6 +61,7 @@ public class TermDetailActivity extends AppCompatActivity {
     private Boolean mNewTerm;
     private TermDetailViewModel mViewModel;
 
+
     //*************************************************
     //Course Variables
     @BindView(R.id.recyclerViewTermDetail)
@@ -177,22 +178,44 @@ public class TermDetailActivity extends AppCompatActivity {
         }
 
         //Observe the recycler view list of courses
-        final Observer<List<CourseEntity>> courseObserver = new Observer<List<CourseEntity>>() {
+//        final Observer<List<CourseEntity>> courseObserver = new Observer<List<CourseEntity>>() {
+//            @Override
+//            public void onChanged(List<CourseEntity> courseEntities) {
+//                courseData.clear();
+//                courseData.addAll(courseEntities);
+//
+//                if (mAdapter == null) {
+//                    mAdapter = new CourseAdapter(courseData, TermDetailActivity.this);
+//                    mRecyclerView.setAdapter(mAdapter);
+//                } else {
+//                    mAdapter.notifyDataSetChanged();
+//                }
+//            }
+//        };
+//        mViewModel.mCourse.observe(this, courseObserver);
+
+
+        //Observe current courses, filtered to the appropriate term
+        mViewModel.getAllCourses().observe(this, new Observer<List<CourseEntity>>() {
             @Override
             public void onChanged(List<CourseEntity> courseEntities) {
-                courseData.clear();
-                courseData.addAll(courseEntities);
+                List<CourseEntity> associatedCourses = new ArrayList<>();
+                for(CourseEntity c:courseEntities)if(c.getCourseID()==getIntent()
+                        .getIntExtra(TERM_KEY_ID, 0))associatedCourses.add(c);
 
                 if (mAdapter == null) {
                     mAdapter = new CourseAdapter(courseData, TermDetailActivity.this);
                     mRecyclerView.setAdapter(mAdapter);
+                    mAdapter.setCourses(associatedCourses);
                 } else {
+                    mAdapter.setCourses(associatedCourses);
                     mAdapter.notifyDataSetChanged();
                 }
-            }
-        };
 
-        mViewModel.mCourse.observe(this, courseObserver);
+            }
+        });
+
+
     }
 
     //*****************************************************************************************
