@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
@@ -13,7 +14,7 @@ import java.util.Date;
  Term Entity is the object class that will be used to hold all Term objects
  ********************************************************/
 
-@Entity(tableName="term_table")
+@Entity(tableName="term_table", indices = {@Index(value = {"term_id"})})
 public class TermEntity {
 
     //*****************************************************************

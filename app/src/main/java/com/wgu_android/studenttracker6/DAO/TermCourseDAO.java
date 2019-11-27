@@ -21,14 +21,14 @@ public interface TermCourseDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<TermCourseEntity> termCourse);
-//
-//    @Query("SELECT * FROM term_table INNER JOIN term_course_table ON term_table.term_id=term_course_table.term_id " +
-//            "WHERE term_table.term_id = :id")
-//    LiveData<List<TermEntity>> getTermById_Courses(int id);
-//
-//    @Query("SELECT * FROM course_table INNER JOIN term_course_table ON course_table.course_id=term_course_table.course_id " +
-//            "WHERE course_table.course_id = :id")
-//    LiveData<List<CourseEntity>> getCourseById_Terms(int id);
+
+    @Query("SELECT term_table.term_id, term_name, term_start, term_end FROM term_table INNER JOIN term_course_table ON term_table.term_id=term_course_table.term_id " +
+            "WHERE term_course_table.course_id = :courseId")
+    LiveData<List<TermEntity>> getTermById_Courses(int courseId);
+
+    @Query("SELECT course_table.course_id, course_name, course_start, course_end, course_status, course_mentor, mentor_phone, mentor_email, course_notes FROM course_table INNER JOIN term_course_table ON course_table.course_id=term_course_table.course_id " +
+            "WHERE term_course_table.term_id = :termId")
+    LiveData<List<CourseEntity>> getCourseById_Terms(int termId);
 
 
     

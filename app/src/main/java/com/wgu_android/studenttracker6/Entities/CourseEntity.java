@@ -4,11 +4,12 @@ package com.wgu_android.studenttracker6.Entities;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
 
-@Entity(tableName="course_table")
+@Entity(tableName="course_table", indices = {@Index(value = {"course_id"})})
 public class CourseEntity {
 
     //*********************************************************

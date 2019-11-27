@@ -20,6 +20,7 @@ public class SampleData {
     private static final String SAMPLE_TEXT_3 = "Possible Term 3";
     private static final String SAMPLE_TEXT_4 = "Course A";
     public static final String SAMPLE_TEXT_5 = "Course B";
+    public static final String SAMPLE_TEXT_8 = "Course C";
     public static final String SAMPLE_TEXT_6 = "Assessment Objective";
     public static final String SAMPLE_TEXT_7 = "Assessment Performance";
 
@@ -41,9 +42,18 @@ public class SampleData {
         List<CourseEntity> course = new ArrayList<>();
         course.add(new CourseEntity(SAMPLE_TEXT_4, getDate(500), getDate(2500)));
         course.add(new CourseEntity(SAMPLE_TEXT_5, getDate(5000), getDate(25000)));
+        course.add(new CourseEntity(SAMPLE_TEXT_8, getDate(5000), getDate(25000)));
         return course;
     }
 
+    public static List<TermCourseEntity> getTermCourseAssocation() {
+        List<TermCourseEntity> termCourse = new ArrayList<>();
+        termCourse.add(new TermCourseEntity(1, 1));
+        termCourse.add(new TermCourseEntity(1, 2));
+        termCourse.add(new TermCourseEntity(2, 1));
+        termCourse.add(new TermCourseEntity(3, 3));
+        return termCourse;
+    }
 
     public static List<AssessmentEntity> getAssessment() {
         List<AssessmentEntity> assessment = new ArrayList<>();

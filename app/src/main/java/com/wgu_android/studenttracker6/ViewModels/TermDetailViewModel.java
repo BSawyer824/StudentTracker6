@@ -23,12 +23,13 @@ public class TermDetailViewModel extends AndroidViewModel {
     public LiveData<List<CourseEntity>> mCourse;
     private AppRepository mRepository;
     private Executor executor = Executors.newSingleThreadExecutor();
+    private int termId;
 
 
     public TermDetailViewModel(@NonNull Application application) {
         super(application);
         mRepository = AppRepository.getInstance(getApplication());
-        mCourse = mRepository.mCourses;
+        mCourse = mRepository.getAssociatedCourses(2);
     }
 
     public void loadData(final int termId) {
@@ -37,6 +38,7 @@ public class TermDetailViewModel extends AndroidViewModel {
             public void run() {
                 TermEntity term = mRepository.getTermById(termId);
                 mLiveTerm.postValue(term);
+                mCourse = mRepository.getAssociatedCourses(2);
             }
         });
     }
