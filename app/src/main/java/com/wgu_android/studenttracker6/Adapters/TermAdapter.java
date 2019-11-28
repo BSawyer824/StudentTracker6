@@ -10,12 +10,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.wgu_android.studenttracker6.Database.AppRepository;
 import com.wgu_android.studenttracker6.Entities.TermEntity;
 import com.wgu_android.studenttracker6.R;
 import com.wgu_android.studenttracker6.TermDetailActivity;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -30,6 +32,7 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.ViewHolder> {
 
     private final List<TermEntity> mTerms;
     private final Context mContext;
+
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -50,6 +53,7 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.ViewHolder> {
     public TermAdapter(List<TermEntity> mTerms, Context mContext) {
         this.mTerms = mTerms;
         this.mContext = mContext;
+
     }
 
     @NonNull

@@ -31,6 +31,6 @@ public interface TermCourseDAO {
             "WHERE term_course_table.term_id = :termId")
     LiveData<List<CourseEntity>> getCourseById_Terms(int termId);
 
-
-    
+    @Query("SELECT * FROM term_course_table")
+    LiveData<List<TermCourseEntity>> getAllTermCourses();
 }

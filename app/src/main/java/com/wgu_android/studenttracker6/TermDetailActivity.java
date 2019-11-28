@@ -3,40 +3,40 @@ package com.wgu_android.studenttracker6;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.wgu_android.studenttracker6.Adapters.CourseAdapter;
-import com.wgu_android.studenttracker6.Entities.CourseEntity;
-import com.wgu_android.studenttracker6.Entities.TermEntity;
-import com.wgu_android.studenttracker6.ViewModels.TermDetailViewModel;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.Transformations;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.wgu_android.studenttracker6.Adapters.CourseAdapter;
+import com.wgu_android.studenttracker6.Entities.CourseEntity;
+import com.wgu_android.studenttracker6.Entities.TermCourseEntity;
+import com.wgu_android.studenttracker6.Entities.TermEntity;
+import com.wgu_android.studenttracker6.ViewModels.TermDetailViewModel;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.Function;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 import static com.wgu_android.studenttracker6.Utilities.Constants.NEW_COURSE_ACTIVITY_REQUEST_CODE;
-import static com.wgu_android.studenttracker6.Utilities.Constants.NEW_TERM_ACTIVITY_REQUEST_CODE;
 import static com.wgu_android.studenttracker6.Utilities.Constants.TERM_KEY_ID;
 
 public class TermDetailActivity extends AppCompatActivity {
@@ -68,6 +68,7 @@ public class TermDetailActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
 
     private List<CourseEntity> courseData = new ArrayList<>();
+    private List<TermCourseEntity> termCourseData = new ArrayList<>();
     private CourseAdapter mAdapter;
 
 
@@ -177,12 +178,16 @@ public class TermDetailActivity extends AppCompatActivity {
             mViewModel.loadData(termId);
         }
 
-        //Observe the recycler view list of courses
+
+
+        //THIS VERSION DISPLAYS ALL COURSES ON THE TERM DETAIL PAGE -NOT JUST ASSOCIATED COURSES
 //        final Observer<List<CourseEntity>> courseObserver = new Observer<List<CourseEntity>>() {
 //            @Override
 //            public void onChanged(List<CourseEntity> courseEntities) {
+//                int courseId;
 //                courseData.clear();
 //                courseData.addAll(courseEntities);
+//
 //
 //                if (mAdapter == null) {
 //                    mAdapter = new CourseAdapter(courseData, TermDetailActivity.this);
@@ -194,27 +199,27 @@ public class TermDetailActivity extends AppCompatActivity {
 //        };
 //        mViewModel.mCourse.observe(this, courseObserver);
 
-
-        //Observe current courses, filtered to the appropriate term
-        mViewModel.getAllCourses().observe(this, new Observer<List<CourseEntity>>() {
+        //REturn only associated courses to the observer
+        final Observer<List<TermCourseEntity>> termCourseObserver = new Observer<List<TermCourseEntity>>() {
             @Override
-            public void onChanged(List<CourseEntity> courseEntities) {
-                List<CourseEntity> associatedCourses = new ArrayList<>();
-                for(CourseEntity c:courseEntities)if(c.getCourseID()==getIntent()
-                        .getIntExtra(TERM_KEY_ID, 0))associatedCourses.add(c);
+            public void onChanged(List<TermCourseEntity> termCourseEntities) {
+                termCourseData.clear();
+                termCourseData.addAll(termCourseEntities);
+
+                for(TermCourseEntity t: termCourseEntities)
+                    if(t.getCourseId() == getIntent().getIntExtra(TERM_KEY_ID, 1))
+                        courseData.add(mAdapter.getCourseById(t.getCourseId()));
 
                 if (mAdapter == null) {
                     mAdapter = new CourseAdapter(courseData, TermDetailActivity.this);
                     mRecyclerView.setAdapter(mAdapter);
-                    mAdapter.setCourses(associatedCourses);
                 } else {
-                    mAdapter.setCourses(associatedCourses);
                     mAdapter.notifyDataSetChanged();
                 }
 
             }
-        });
-
+        };
+        mViewModel.mTermCourses.observe(this, termCourseObserver);
 
     }
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.wgu_android.studenttracker6.Entities.AssessmentEntity;
 import com.wgu_android.studenttracker6.Entities.CourseEntity;
+import com.wgu_android.studenttracker6.Entities.TermCourseEntity;
 import com.wgu_android.studenttracker6.Entities.TermEntity;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class AppRepository {
     public LiveData<List<TermEntity>> mTerms;
     public LiveData<List<CourseEntity>> mCourses;
     public LiveData<List<AssessmentEntity>> mAssessments;
+    public LiveData<List<TermCourseEntity>> mTermCourses;
     private AppDatabase mDb;
     private Executor executor = Executors.newSingleThreadExecutor();
 
@@ -35,6 +37,7 @@ public class AppRepository {
         mTerms = getAllTerms();
         mCourses = getAllCourses();
         mAssessments = getAllAssessments();
+        mTermCourses = getAllTermCourses();
 
     }
 
@@ -55,6 +58,10 @@ public class AppRepository {
     //Term Methods
     private LiveData<List<TermEntity>> getAllTerms() {
         return mDb.termDao().getAllTerm();
+    }
+
+    private LiveData<List<TermCourseEntity>> getAllTermCourses() {
+        return mDb.termCourseDao().getAllTermCourses();
     }
 
     public void deleteAllTerms() {

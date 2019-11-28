@@ -6,23 +6,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.wgu_android.studenttracker6.CourseDetailActivity;
 import com.wgu_android.studenttracker6.Entities.CourseEntity;
 import com.wgu_android.studenttracker6.R;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
 import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_KEY_ID;
 import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_NAME;
 
@@ -94,5 +89,12 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     public void setCourses(List<CourseEntity> courses) {
         mCourses = courses;
         notifyDataSetChanged();
+    }
+
+    public CourseEntity getCourseById(int courseId) {
+        for (CourseEntity c: mCourses)
+            if(c.getCourseID() == courseId)
+                return c;
+        return null;
     }
 }
