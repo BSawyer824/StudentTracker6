@@ -13,6 +13,8 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -24,13 +26,13 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AssessmentDetailActivity extends AppCompatActivity {
+public class AssessmentDetailActivity extends AppCompatActivity  implements AdapterView.OnItemSelectedListener  {
 
 
     //**************************************************
     //Assessment Variables
     @BindView(R.id.spinnerAssessType)
-    Spinner spinner;
+    Spinner spinnerAssessment;
 
     @BindView(R.id.editTextAssessmentName)
     EditText mEditTextAssessmentName;
@@ -45,7 +47,9 @@ public class AssessmentDetailActivity extends AppCompatActivity {
     final Calendar myCalendarDue = Calendar.getInstance();
     DatePickerDialog.OnDateSetListener goalDate;
     DatePickerDialog.OnDateSetListener dueDate;
-    
+    private String spinnerSelectedItem;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,7 +141,7 @@ public class AssessmentDetailActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             saveAndReturn();
             return true;
-        } else if (item.getItemId() == R.id.action_delete_term) {
+        } else if (item.getItemId() == R.id.action_delete_assessment) {
             //mViewModel.deleteCourse();
             finish();
         }
@@ -165,8 +169,31 @@ public class AssessmentDetailActivity extends AppCompatActivity {
     //**********************************************************************
     //Spinner Methods
     private void initSpinner() {
+        ArrayAdapter<CharSequence> mSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_types, android.R.layout.simple_spinner_item);
+        mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerAssessment.setAdapter(mSpinnerAdapter);
+        spinnerAssessment.setOnItemSelectedListener(this);
+
+        //TODO not correctly displaying the status in the spinner from the DB
+        if (spinnerSelectedItem != null) {
+            int spinnerPosition = mSpinnerAdapter.getPosition(spinnerSelectedItem);
+            spinnerAssessment.setSelection(spinnerPosition);
+        }
     }
 
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String mSelectedItem = parent.getItemAtPosition(position).toString();
+        spinnerSelectedItem = mSelectedItem;
+
+        //Toast.makeText(parent.getContext(), spinnerSelectedItem, Toast.LENGTH_SHORT);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 
     //**************************************************************************************
     //Date Picker Methods
