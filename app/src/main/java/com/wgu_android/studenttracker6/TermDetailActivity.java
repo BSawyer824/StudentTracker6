@@ -181,34 +181,13 @@ public class TermDetailActivity extends AppCompatActivity {
 
 
         //THIS VERSION DISPLAYS ALL COURSES ON THE TERM DETAIL PAGE -NOT JUST ASSOCIATED COURSES
-//        final Observer<List<CourseEntity>> courseObserver = new Observer<List<CourseEntity>>() {
-//            @Override
-//            public void onChanged(List<CourseEntity> courseEntities) {
-//                int courseId;
-//                courseData.clear();
-//                courseData.addAll(courseEntities);
-//
-//
-//                if (mAdapter == null) {
-//                    mAdapter = new CourseAdapter(courseData, TermDetailActivity.this);
-//                    mRecyclerView.setAdapter(mAdapter);
-//                } else {
-//                    mAdapter.notifyDataSetChanged();
-//                }
-//            }
-//        };
-//        mViewModel.mCourse.observe(this, courseObserver);
-
-        //REturn only associated courses to the observer
-        final Observer<List<TermCourseEntity>> termCourseObserver = new Observer<List<TermCourseEntity>>() {
+        final Observer<List<CourseEntity>> courseObserver = new Observer<List<CourseEntity>>() {
             @Override
-            public void onChanged(List<TermCourseEntity> termCourseEntities) {
-                termCourseData.clear();
-                termCourseData.addAll(termCourseEntities);
+            public void onChanged(List<CourseEntity> courseEntities) {
+                int courseId;
+                courseData.clear();
+                courseData.addAll(courseEntities);
 
-                for(TermCourseEntity t: termCourseEntities)
-                    if(t.getCourseId() == getIntent().getIntExtra(TERM_KEY_ID, 1))
-                        courseData.add(mAdapter.getCourseById(t.getCourseId()));
 
                 if (mAdapter == null) {
                     mAdapter = new CourseAdapter(courseData, TermDetailActivity.this);
@@ -216,10 +195,31 @@ public class TermDetailActivity extends AppCompatActivity {
                 } else {
                     mAdapter.notifyDataSetChanged();
                 }
-
             }
         };
-        mViewModel.mTermCourses.observe(this, termCourseObserver);
+        mViewModel.mCourse.observe(this, courseObserver);
+
+        //Return only associated courses to the observer
+//        final Observer<List<TermCourseEntity>> termCourseObserver = new Observer<List<TermCourseEntity>>() {
+//            @Override
+//            public void onChanged(List<TermCourseEntity> termCourseEntities) {
+//                termCourseData.clear();
+//                termCourseData.addAll(termCourseEntities);
+//
+//                for(TermCourseEntity t: termCourseEntities)
+//                    if(t.getCourseId() == getIntent().getIntExtra(TERM_KEY_ID, 1))
+//                        courseData.add(mAdapter.getCourseById(t.getCourseId()));
+//
+//                if (mAdapter == null) {
+//                    mAdapter = new CourseAdapter(courseData, TermDetailActivity.this);
+//                    mRecyclerView.setAdapter(mAdapter);
+//                } else {
+//                    mAdapter.notifyDataSetChanged();
+//                }
+//
+//            }
+//        };
+//        mViewModel.mTermCourses.observe(this, termCourseObserver);
 
     }
 
