@@ -184,4 +184,8 @@ public class AppRepository {
             }
         });
     }
+
+    public List<TermCourseAssociationEntity> getListTermCourseAssociations() {
+        return mDb.termCourseAssociationDao().getListTermCourses();
+    }
 }

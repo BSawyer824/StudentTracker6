@@ -23,6 +23,10 @@ public interface TermCourseAssociationDAO {
     @Query("SELECT * FROM term_course_association_table")
     LiveData<List<TermCourseAssociationEntity>> getAllTermCourses();
 
+    @Query("SELECT * FROM term_course_association_table")
+    List<TermCourseAssociationEntity> getListTermCourses();
+
+
     @Query("DELETE FROM term_course_association_table")
     void deleteAll();
 

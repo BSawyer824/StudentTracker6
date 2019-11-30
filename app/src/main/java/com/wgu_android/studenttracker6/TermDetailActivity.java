@@ -11,9 +11,7 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.wgu_android.studenttracker6.Adapters.CourseAdapter;
 import com.wgu_android.studenttracker6.Entities.CourseEntity;
-import com.wgu_android.studenttracker6.Entities.TermCourseEntity;
+import com.wgu_android.studenttracker6.Entities.TermCourseAssociationEntity;
 import com.wgu_android.studenttracker6.Entities.TermEntity;
 import com.wgu_android.studenttracker6.ViewModels.TermDetailViewModel;
 
@@ -31,7 +29,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.function.Function;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,7 +65,7 @@ public class TermDetailActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
 
     private List<CourseEntity> courseData = new ArrayList<>();
-    private List<TermCourseEntity> termCourseData = new ArrayList<>();
+    private List<TermCourseAssociationEntity> termCourseData = new ArrayList<>();
     private CourseAdapter mAdapter;
 
 
@@ -181,13 +178,34 @@ public class TermDetailActivity extends AppCompatActivity {
 
 
         //THIS VERSION DISPLAYS ALL COURSES ON THE TERM DETAIL PAGE -NOT JUST ASSOCIATED COURSES
+//        final Observer<List<CourseEntity>> courseObserver = new Observer<List<CourseEntity>>() {
+//            @Override
+//            public void onChanged(List<CourseEntity> courseEntities) {
+//                int courseId;
+//                courseData.clear();
+//                courseData.addAll(courseEntities);
+//
+//
+//                if (mAdapter == null) {
+//                    mAdapter = new CourseAdapter(courseData, TermDetailActivity.this);
+//                    mRecyclerView.setAdapter(mAdapter);
+//                } else {
+//                    mAdapter.notifyDataSetChanged();
+//                }
+//            }
+//        };
+//        mViewModel.mCourse.observe(this, courseObserver);
+
+        //Return only associated courses to the observer
         final Observer<List<CourseEntity>> courseObserver = new Observer<List<CourseEntity>>() {
             @Override
             public void onChanged(List<CourseEntity> courseEntities) {
-                int courseId;
                 courseData.clear();
-                courseData.addAll(courseEntities);
+                termCourseData.addAll(mViewModel.getListTermCourseAssociations());
 
+                for(TermCourseAssociationEntity t: termCourseData)
+                    if (t.getTermId() == getIntent().getIntExtra(TERM_KEY_ID, 0))
+                        courseData.add(mAdapter.getCourseById(t.getCourseId()));
 
                 if (mAdapter == null) {
                     mAdapter = new CourseAdapter(courseData, TermDetailActivity.this);
@@ -198,29 +216,7 @@ public class TermDetailActivity extends AppCompatActivity {
             }
         };
         mViewModel.mCourse.observe(this, courseObserver);
-
-        //Return only associated courses to the observer
-//        final Observer<List<TermCourseEntity>> termCourseObserver = new Observer<List<TermCourseEntity>>() {
-//            @Override
-//            public void onChanged(List<TermCourseEntity> termCourseEntities) {
-//                termCourseData.clear();
-//                termCourseData.addAll(termCourseEntities);
-//
-//                for(TermCourseEntity t: termCourseEntities)
-//                    if(t.getCourseId() == getIntent().getIntExtra(TERM_KEY_ID, 1))
-//                        courseData.add(mAdapter.getCourseById(t.getCourseId()));
-//
-//                if (mAdapter == null) {
-//                    mAdapter = new CourseAdapter(courseData, TermDetailActivity.this);
-//                    mRecyclerView.setAdapter(mAdapter);
-//                } else {
-//                    mAdapter.notifyDataSetChanged();
-//                }
-//
-//            }
-//        };
-//        mViewModel.mTermCourses.observe(this, termCourseObserver);
-
+        
     }
 
     //*****************************************************************************************

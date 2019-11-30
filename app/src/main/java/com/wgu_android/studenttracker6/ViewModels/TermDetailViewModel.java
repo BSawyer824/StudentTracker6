@@ -85,4 +85,8 @@ public class TermDetailViewModel extends AndroidViewModel {
     public LiveData<List<TermCourseAssociationEntity>> getAllTermCourses() {
         return mTermCourses;
     }
+
+    public List<TermCourseAssociationEntity> getListTermCourseAssociations() {
+        return mRepository.getListTermCourseAssociations();
+    }
 }
