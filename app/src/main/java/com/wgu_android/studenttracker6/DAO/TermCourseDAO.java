@@ -33,4 +33,7 @@ public interface TermCourseDAO {
 
     @Query("SELECT * FROM term_course_table")
     LiveData<List<TermCourseEntity>> getAllTermCourses();
+
+    @Query("DELETE FROM term_course_table")
+    void deleteAll();
 }

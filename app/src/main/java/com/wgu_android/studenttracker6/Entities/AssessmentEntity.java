@@ -42,8 +42,17 @@ public class AssessmentEntity {
         this.assessmentDueDate = assessmentDueDate;
     }
 
-    public AssessmentEntity(String assessmentName, Date assessmentDueDate) {
+    public AssessmentEntity(String assessmentName, Date assessmentDueDate, Date assessmentGoalDate) {
         this.assessmentName = assessmentName;
+        this.assessmentDueDate = assessmentDueDate;
+        this.assessmentGoalDate = assessmentGoalDate;
+    }
+
+    @Ignore
+    public AssessmentEntity(String assessmentName, String assessmentType, Date assessmentGoalDate, Date assessmentDueDate) {
+        this.assessmentName = assessmentName;
+        this.assessmentType = assessmentType;
+        this.assessmentGoalDate = assessmentGoalDate;
         this.assessmentDueDate = assessmentDueDate;
     }
 

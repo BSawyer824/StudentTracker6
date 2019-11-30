@@ -1,6 +1,7 @@
 package com.wgu_android.studenttracker6;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -41,6 +42,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_KEY_ID;
+import static com.wgu_android.studenttracker6.Utilities.Constants.NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE;
+import static com.wgu_android.studenttracker6.Utilities.Constants.NEW_COURSE_ACTIVITY_REQUEST_CODE;
 import static com.wgu_android.studenttracker6.Utilities.Constants.TERM_KEY_ID;
 
 public class CourseDetailActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -111,8 +114,8 @@ public class CourseDetailActivity extends AppCompatActivity implements AdapterVi
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(CourseDetailActivity.this, AssessmentDetailActivity.class);
+                startActivityForResult(intent, NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE);
             }
         });
 
@@ -239,7 +242,7 @@ public class CourseDetailActivity extends AppCompatActivity implements AdapterVi
         if (item.getItemId() == android.R.id.home) {
             saveAndReturn();
             return true;
-        } else if (item.getItemId() == R.id.action_delete_term) {
+        } else if (item.getItemId() == R.id.action_delete_course) {
             mViewModel.deleteCourse();
             finish();
         }

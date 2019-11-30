@@ -1,6 +1,7 @@
 package com.wgu_android.studenttracker6.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,13 +10,24 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.wgu_android.studenttracker6.AssessmentDetailActivity;
+import com.wgu_android.studenttracker6.CourseDetailActivity;
 import com.wgu_android.studenttracker6.Entities.AssessmentEntity;
 import com.wgu_android.studenttracker6.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.wgu_android.studenttracker6.Utilities.Constants.ASSESMENT_KEY_ID;
+import static com.wgu_android.studenttracker6.Utilities.Constants.ASSESSMENT_NAME;
+import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_KEY_ID;
+import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_NAME;
 
 public class AssessmentsAdapter extends RecyclerView.Adapter<AssessmentsAdapter.ViewHolder> {
 
@@ -38,8 +50,31 @@ public class AssessmentsAdapter extends RecyclerView.Adapter<AssessmentsAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final AssessmentEntity assessment = mAssessments.get(position);
-        holder.mTextViewAssessmentName.setText(assessment.getAssessmentName());
 
+        //assign start and end dates to a string
+        Date goalDate = assessment.getAssessmentGoalDate();
+        Date dueDate = assessment.getAssessmentDueDate();
+        DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        String strDateGoal = dateFormat.format(goalDate);
+        String strDateDue = dateFormat.format(dueDate);
+        String label = "Goal Date: " + strDateGoal + ".  Due Date: " + strDateDue;
+
+
+        holder.mTextViewAssessmentName.setText(assessment.getAssessmentName());
+        holder.mTextViewAssessmentDates.setText(label);
+
+
+        //When a Course is clicked in the recycler view, send selected course to the next activity
+        holder.mTextViewAssessmentName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, AssessmentDetailActivity.class);
+                intent.putExtra(ASSESMENT_KEY_ID, assessment.getAssessmentID());
+                intent.putExtra(ASSESSMENT_NAME, assessment.getAssessmentName());
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override

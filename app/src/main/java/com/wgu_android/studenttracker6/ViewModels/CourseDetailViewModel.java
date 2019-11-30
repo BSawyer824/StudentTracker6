@@ -53,7 +53,7 @@ public class CourseDetailViewModel extends AndroidViewModel {
 
         CourseEntity course = mLiveCourse.getValue();
         if (course == null) {
-            //New Note
+            //New Course
             if (TextUtils.isEmpty(courseName.trim())) {
                 return;
             } else {
@@ -61,7 +61,7 @@ public class CourseDetailViewModel extends AndroidViewModel {
                         mentorName, mentorPhone, mentorEmail, courseNotes);
             }
         } else {
-            //Existing Note
+            //Existing Course
             course.setCourseName(courseName);
             course.setCourseStart(courseStart);
             course.setCourseEnd(courseEnd);

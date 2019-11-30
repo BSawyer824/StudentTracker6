@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.wgu_android.studenttracker6.Entities.AssessmentEntity;
 import com.wgu_android.studenttracker6.Entities.CourseEntity;
+import com.wgu_android.studenttracker6.Entities.TermCourseAssociationEntity;
 import com.wgu_android.studenttracker6.Entities.TermCourseEntity;
 import com.wgu_android.studenttracker6.Entities.TermEntity;
 
@@ -20,7 +21,7 @@ public class AppRepository {
     public LiveData<List<TermEntity>> mTerms;
     public LiveData<List<CourseEntity>> mCourses;
     public LiveData<List<AssessmentEntity>> mAssessments;
-    public LiveData<List<TermCourseEntity>> mTermCourses;
+    public LiveData<List<TermCourseAssociationEntity>> mTermCourses;
     private AppDatabase mDb;
     private Executor executor = Executors.newSingleThreadExecutor();
 
@@ -48,7 +49,7 @@ public class AppRepository {
                 mDb.termDao().insertAll(SampleData.getTerm());
                 mDb.courseDao().insertAll(SampleData.getCourse());
                 mDb.assessmentDao().insertAll(SampleData.getAssessment());
-                mDb.termCourseDao().insertAll(SampleData.getTermCourseAssocation());
+                mDb.termCourseAssociationDao().insertAll(SampleData.getTermCourseAssociation());
             }
         });
 
@@ -60,8 +61,9 @@ public class AppRepository {
         return mDb.termDao().getAllTerm();
     }
 
-    private LiveData<List<TermCourseEntity>> getAllTermCourses() {
-        return mDb.termCourseDao().getAllTermCourses();
+
+    private LiveData<List<TermCourseAssociationEntity>> getAllTermCourses() {
+        return mDb.termCourseAssociationDao().getAllTermCourses();
     }
 
     public void deleteAllTerms() {
@@ -100,6 +102,10 @@ public class AppRepository {
     //Course Methods
     private LiveData<List<CourseEntity>> getAllCourses() {
         return mDb.courseDao().getAllCourses();
+    }
+
+    public LiveData<List<CourseEntity>> getAssociatedCourses(int termId) {
+        return mDb.termCourseDao().getCourseById_Terms(termId);
     }
 
     public void deleteAllCourses() {
@@ -169,5 +175,13 @@ public class AppRepository {
             }
         });
     }
-    
+
+    public void deleteAllTermCourses() {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                mDb.termCourseDao().deleteAll();
+            }
+        });
+    }
 }

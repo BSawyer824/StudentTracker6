@@ -29,5 +29,13 @@
         <item>Plan to Take</item>
         <item>Dropped</item>
     </string-array>
+
+    <string-array name="spinner_types">
+        <item>Objective</item>
+        <item>Performance</item>
+    </string-array>
+
+
     <string name="title_activity_assessment_detail">AssessmentDetailActivity</string>
+    <string name="delete_assessment">Delete Assessment</string>
 </resources>

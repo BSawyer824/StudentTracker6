@@ -6,9 +6,14 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.wgu_android.studenttracker6.Entities.AssessmentEntity;
+import com.wgu_android.studenttracker6.Entities.CourseEntity;
+import com.wgu_android.studenttracker6.ViewModels.AssessmentDetailViewModel;
+import com.wgu_android.studenttracker6.ViewModels.CourseDetailViewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +30,9 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.wgu_android.studenttracker6.Utilities.Constants.ASSESMENT_KEY_ID;
+import static com.wgu_android.studenttracker6.Utilities.Constants.TERM_KEY_ID;
 
 public class AssessmentDetailActivity extends AppCompatActivity  implements AdapterView.OnItemSelectedListener  {
 
@@ -48,7 +56,8 @@ public class AssessmentDetailActivity extends AppCompatActivity  implements Adap
     DatePickerDialog.OnDateSetListener goalDate;
     DatePickerDialog.OnDateSetListener dueDate;
     private String spinnerSelectedItem;
-
+    private AssessmentDetailViewModel mViewModel;
+    private Boolean mNewAssessment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +72,6 @@ public class AssessmentDetailActivity extends AppCompatActivity  implements Adap
 
         ButterKnife.bind(this);
         initSpinner();
-        initRecyclerView();
         initViewModel();
 
 
@@ -119,11 +127,29 @@ public class AssessmentDetailActivity extends AppCompatActivity  implements Adap
     //recycler view methods    
     
     private void initViewModel() {
-    }
+        mViewModel = ViewModelProviders.of(this).get(AssessmentDetailViewModel.class);
 
-    private void initRecyclerView() {
-    }
+        mViewModel.mLiveAssessment.observe(this, new Observer<AssessmentEntity>() {
+            @Override
+            public void onChanged(AssessmentEntity assessmentEntity) {
+                mEditTextAssessmentName.setText(assessmentEntity.getAssessmentName());
+                setLabelGoal(assessmentEntity);
+                setLabelDue(assessmentEntity);
+            }
+        });
 
+
+        //Check to see if a term was passed, and if so, display it
+        Bundle extras = getIntent().getExtras();
+        if (extras == null) {
+            setTitle("New Assessment");
+            mNewAssessment = true;
+        } else {
+            setTitle("Edit Assessment");
+            int assessmentId = extras.getInt(ASSESMENT_KEY_ID);
+            mViewModel.loadData(assessmentId);
+        }
+    }
 
 
 
@@ -157,11 +183,10 @@ public class AssessmentDetailActivity extends AppCompatActivity  implements Adap
 
     private void saveAndReturn() {
 
-//        spinnerSelectedItem = spinner.getSelectedItem().toString();
-//
-//        mViewModel.saveCourse(mEditTextCourseName.getText().toString(), myCalendarGoal.getTime(),
-//                myCalendarDue.getTime(), mEditTextMentor.getText().toString(), mEditTextPhone.getText().toString(),
-//                mEditTextEmail.getText().toString(), mEditTextNotes.getText().toString(), spinnerSelectedItem);
+        spinnerSelectedItem = spinnerAssessment.getSelectedItem().toString();
+
+        mViewModel.saveAssessment(mEditTextAssessmentName.getText().toString(), myCalendarGoal.getTime(),
+                myCalendarDue.getTime(), spinnerSelectedItem);
 
         finish();
     }

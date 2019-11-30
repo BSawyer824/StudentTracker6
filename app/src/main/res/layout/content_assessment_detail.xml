@@ -45,6 +45,8 @@
         android:layout_marginTop="12dp"
         android:ems="10"
         android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.035"
         app:layout_constraintStart_toEndOf="@+id/textViewGoalDate"
         app:layout_constraintTop_toBottomOf="@+id/editTextAssessmentName" />
 
@@ -61,10 +63,12 @@
         android:id="@+id/editTextDueDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        tools:layout_editor_absoluteX="144dp"
-        tools:layout_editor_absoluteY="126dp" />
+        app:layout_constraintStart_toEndOf="@+id/textViewDueDate"
+        app:layout_constraintTop_toBottomOf="@+id/editTextGoalDate" />
 
     <TextView
         android:id="@+id/textViewAssessmentType"
@@ -79,6 +83,10 @@
         android:id="@+id/spinnerAssessType"
         android:layout_width="263dp"
         android:layout_height="32dp"
-        tools:layout_editor_absoluteX="147dp"
-        tools:layout_editor_absoluteY="187dp" />
+        android:layout_marginStart="112dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textViewAssessmentType"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDueDate"
+        app:layout_constraintVertical_bias="0.006" />
 </androidx.constraintlayout.widget.ConstraintLayout>
