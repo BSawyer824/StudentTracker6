@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -48,6 +49,9 @@ public class TermDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.editTextEndDate)
     EditText mEditTextEndDate;
+
+    @BindView(R.id.textViewTermId)
+    TextView mTextViewTermId;
 
 
     final Calendar myCalendarStart = Calendar.getInstance();
@@ -161,6 +165,7 @@ public class TermDetailActivity extends AppCompatActivity {
                 mEditTextTermName.setText(termEntity.getTermName());
                 setLabelStart(termEntity);
                 setLabelEnd(termEntity);
+                mTextViewTermId.setText(Integer.toString(termEntity.getTermID()));
             }
         });
 
@@ -175,37 +180,16 @@ public class TermDetailActivity extends AppCompatActivity {
             mViewModel.loadData(termId);
         }
 
-
-
-        //THIS VERSION DISPLAYS ALL COURSES ON THE TERM DETAIL PAGE -NOT JUST ASSOCIATED COURSES
-//        final Observer<List<CourseEntity>> courseObserver = new Observer<List<CourseEntity>>() {
-//            @Override
-//            public void onChanged(List<CourseEntity> courseEntities) {
-//                int courseId;
-//                courseData.clear();
-//                courseData.addAll(courseEntities);
-//
-//
-//                if (mAdapter == null) {
-//                    mAdapter = new CourseAdapter(courseData, TermDetailActivity.this);
-//                    mRecyclerView.setAdapter(mAdapter);
-//                } else {
-//                    mAdapter.notifyDataSetChanged();
-//                }
-//            }
-//        };
-//        mViewModel.mCourse.observe(this, courseObserver);
-
-        //Return only associated courses to the observer
+        //filter to only the courses associated with the Term, based on term id foreign key
         final Observer<List<CourseEntity>> courseObserver = new Observer<List<CourseEntity>>() {
             @Override
             public void onChanged(List<CourseEntity> courseEntities) {
-                courseData.clear();
-                termCourseData.addAll(mViewModel.getListTermCourseAssociations());
 
-                for(TermCourseAssociationEntity t: termCourseData)
-                    if (t.getTermId() == getIntent().getIntExtra(TERM_KEY_ID, 0))
-                        courseData.add(mAdapter.getCourseById(t.getCourseId()));
+                courseData.clear();
+
+                for(CourseEntity c: courseEntities)
+                    if(c.getFkTermId() == getIntent().getIntExtra(TERM_KEY_ID, 0))
+                        courseData.add(c);
 
                 if (mAdapter == null) {
                     mAdapter = new CourseAdapter(courseData, TermDetailActivity.this);
@@ -216,8 +200,9 @@ public class TermDetailActivity extends AppCompatActivity {
             }
         };
         mViewModel.mCourse.observe(this, courseObserver);
-        
+
     }
+
 
     //*****************************************************************************************
     //menu methods
