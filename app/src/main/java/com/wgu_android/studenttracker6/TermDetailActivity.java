@@ -48,9 +48,6 @@ public class TermDetailActivity extends AppCompatActivity {
     @BindView(R.id.editTextEndDate)
     EditText mEditTextEndDate;
 
-//    @BindView(R.id.textViewTermId)
-//    TextView mTextViewTermId;
-
 
     final Calendar myCalendarStart = Calendar.getInstance();
     final Calendar myCalendarEnd = Calendar.getInstance();
@@ -183,7 +180,6 @@ public class TermDetailActivity extends AppCompatActivity {
             public void onChanged(List<CourseEntity> courseEntities) {
 
                 courseData.clear();
-
                 for(CourseEntity c: courseEntities)
                     if(c.getFkTermId() == getIntent().getIntExtra(TERM_KEY_ID, 0))
                         courseData.add(c);

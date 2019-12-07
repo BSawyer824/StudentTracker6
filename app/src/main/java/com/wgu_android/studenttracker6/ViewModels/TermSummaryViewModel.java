@@ -7,9 +7,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.wgu_android.studenttracker6.Database.AppRepository;
-import com.wgu_android.studenttracker6.Database.SampleData;
-import com.wgu_android.studenttracker6.Entities.AssessmentEntity;
-import com.wgu_android.studenttracker6.Entities.CourseEntity;
 import com.wgu_android.studenttracker6.Entities.TermEntity;
 
 import java.util.List;
