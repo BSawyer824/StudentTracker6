@@ -3,13 +3,16 @@ package com.wgu_android.studenttracker6.Entities;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
 
-@Entity(tableName="course_table", indices = {@Index(value = {"course_id"})})
+import static androidx.room.ForeignKey.CASCADE;
+
+@Entity(tableName="course_table", indices = {@Index(value = {"course_id"}), @Index(value = {"fk_term_id"})}, foreignKeys = {@ForeignKey(entity = TermEntity.class, parentColumns = "term_id", childColumns = "fk_term_id", onDelete = CASCADE)})
 public class CourseEntity {
 
     //*********************************************************
@@ -42,6 +45,9 @@ public class CourseEntity {
     @ColumnInfo(name="course_notes")
     private String courseNotes;
 
+    @ColumnInfo(name="fk_term_id")
+    private int fkTermId;
+
     //*********************************************************
     //Constructor
     @Ignore
@@ -65,10 +71,11 @@ public class CourseEntity {
         this.courseName= courseName;
     }
 
-    public CourseEntity(String courseName, Date courseStart, Date courseEnd) {
+    public CourseEntity(String courseName, Date courseStart, Date courseEnd, int fkTermId) {
         this.courseName = courseName;
         this.courseStart = courseStart;
         this.courseEnd = courseEnd;
+        this.fkTermId = fkTermId;
     }
 
     //*********************************************************
@@ -145,6 +152,14 @@ public class CourseEntity {
         this.courseNotes = courseNotes;
     }
 
+    public int getFkTermId() {
+        return fkTermId;
+    }
+
+    public void setFkTermId(int fkTermId) {
+        this.fkTermId = fkTermId;
+    }
+
     @Override
     public String toString() {
         return "CourseEntity{" +
@@ -157,6 +172,7 @@ public class CourseEntity {
                 ", courseMentorPhone='" + courseMentorPhone + '\'' +
                 ", courseMentorEmail='" + courseMentorEmail + '\'' +
                 ", courseNotes='" + courseNotes + '\'' +
+                ", fkTermId=" + fkTermId +
                 '}';
     }
 }

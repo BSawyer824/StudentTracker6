@@ -3,12 +3,9 @@ package com.wgu_android.studenttracker6.Database;
 import android.content.Context;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.wgu_android.studenttracker6.Entities.AssessmentEntity;
 import com.wgu_android.studenttracker6.Entities.CourseEntity;
-import com.wgu_android.studenttracker6.Entities.TermCourseAssociationEntity;
-import com.wgu_android.studenttracker6.Entities.TermCourseEntity;
 import com.wgu_android.studenttracker6.Entities.TermEntity;
 
 import java.util.List;
@@ -21,7 +18,6 @@ public class AppRepository {
     public LiveData<List<TermEntity>> mTerms;
     public LiveData<List<CourseEntity>> mCourses;
     public LiveData<List<AssessmentEntity>> mAssessments;
-    public LiveData<List<TermCourseAssociationEntity>> mTermCourses;
     private AppDatabase mDb;
     private Executor executor = Executors.newSingleThreadExecutor();
 
@@ -38,7 +34,6 @@ public class AppRepository {
         mTerms = getAllTerms();
         mCourses = getAllCourses();
         mAssessments = getAllAssessments();
-        mTermCourses = getAllTermCourses();
 
     }
 
@@ -49,7 +44,6 @@ public class AppRepository {
                 mDb.termDao().insertAll(SampleData.getTerm());
                 mDb.courseDao().insertAll(SampleData.getCourse());
                 mDb.assessmentDao().insertAll(SampleData.getAssessment());
-                mDb.termCourseAssociationDao().insertAll(SampleData.getTermCourseAssociation());
             }
         });
 
@@ -59,11 +53,6 @@ public class AppRepository {
     //Term Methods
     private LiveData<List<TermEntity>> getAllTerms() {
         return mDb.termDao().getAllTerm();
-    }
-
-
-    private LiveData<List<TermCourseAssociationEntity>> getAllTermCourses() {
-        return mDb.termCourseAssociationDao().getAllTermCourses();
     }
 
     public void deleteAllTerms() {
@@ -102,10 +91,6 @@ public class AppRepository {
     //Course Methods
     private LiveData<List<CourseEntity>> getAllCourses() {
         return mDb.courseDao().getAllCourses();
-    }
-
-    public LiveData<List<CourseEntity>> getAssociatedCourses(int termId) {
-        return mDb.termCourseDao().getCourseById_Terms(termId);
     }
 
     public void deleteAllCourses() {
@@ -176,16 +161,5 @@ public class AppRepository {
         });
     }
 
-    public void deleteAllTermCourses() {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                mDb.termCourseDao().deleteAll();
-            }
-        });
-    }
 
-    public List<TermCourseAssociationEntity> getListTermCourseAssociations() {
-        return mDb.termCourseAssociationDao().getListTermCourses();
-    }
 }

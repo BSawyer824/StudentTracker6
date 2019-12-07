@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.wgu_android.studenttracker6.CourseDetailActivity;
 import com.wgu_android.studenttracker6.Entities.CourseEntity;
-import com.wgu_android.studenttracker6.Entities.TermCourseEntity;
 import com.wgu_android.studenttracker6.R;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

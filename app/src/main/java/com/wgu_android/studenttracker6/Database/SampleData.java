@@ -1,10 +1,7 @@
 package com.wgu_android.studenttracker6.Database;
 
 import com.wgu_android.studenttracker6.Entities.AssessmentEntity;
-import com.wgu_android.studenttracker6.Entities.CourseAssessmentEntity;
 import com.wgu_android.studenttracker6.Entities.CourseEntity;
-import com.wgu_android.studenttracker6.Entities.TermCourseAssociationEntity;
-import com.wgu_android.studenttracker6.Entities.TermCourseEntity;
 import com.wgu_android.studenttracker6.Entities.TermEntity;
 
 import java.util.ArrayList;
@@ -28,7 +25,6 @@ public class SampleData {
     public static List<TermEntity> term = new ArrayList<>();
     public static List<CourseEntity> course = new ArrayList<>();
     public static List<AssessmentEntity> assessment = new ArrayList<>();
-    public static List<TermCourseAssociationEntity> termCourse = new ArrayList<>();
 
 
     private static Date getDate(int diff) {
@@ -46,19 +42,12 @@ public class SampleData {
     }
 
     public static List<CourseEntity> getCourse() {
-        course.add(new CourseEntity(SAMPLE_TEXT_4, getDate(500), getDate(2500)));
-        course.add(new CourseEntity(SAMPLE_TEXT_5, getDate(5000), getDate(25000)));
-        course.add(new CourseEntity(SAMPLE_TEXT_8, getDate(5000), getDate(25000)));
+        course.add(new CourseEntity(SAMPLE_TEXT_4, getDate(500), getDate(2500), 1));
+        course.add(new CourseEntity(SAMPLE_TEXT_5, getDate(5000), getDate(25000), 1));
+        course.add(new CourseEntity(SAMPLE_TEXT_8, getDate(5000), getDate(25000), 2));
         return course;
     }
 
-    public static List<TermCourseAssociationEntity> getTermCourseAssociation() {
-        termCourse.add(new TermCourseAssociationEntity(1, 1));
-        termCourse.add(new TermCourseAssociationEntity(1, 3));
-        termCourse.add(new TermCourseAssociationEntity(2, 2));
-        termCourse.add(new TermCourseAssociationEntity(3, 1));
-        return termCourse;
-    }
 
     public static List<AssessmentEntity> getAssessment() {
 

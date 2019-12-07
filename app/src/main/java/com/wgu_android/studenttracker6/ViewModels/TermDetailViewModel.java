@@ -10,11 +10,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.wgu_android.studenttracker6.Database.AppRepository;
 import com.wgu_android.studenttracker6.Entities.CourseEntity;
-import com.wgu_android.studenttracker6.Entities.TermCourseAssociationEntity;
-import com.wgu_android.studenttracker6.Entities.TermCourseEntity;
 import com.wgu_android.studenttracker6.Entities.TermEntity;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -25,7 +22,6 @@ public class TermDetailViewModel extends AndroidViewModel {
     public MutableLiveData<TermEntity> mLiveTerm = new MutableLiveData<>();
     public LiveData<List<CourseEntity>> mCourse;
     public LiveData<List<CourseEntity>> mAssociatedCourses;
-    public LiveData<List<TermCourseAssociationEntity>> mTermCourses;
     private AppRepository mRepository;
     private Executor executor = Executors.newSingleThreadExecutor();
     private int termId;
@@ -35,7 +31,6 @@ public class TermDetailViewModel extends AndroidViewModel {
         super(application);
         mRepository = AppRepository.getInstance(getApplication());
         mCourse = mRepository.mCourses;
-        mTermCourses = mRepository.mTermCourses;
     }
 
 
@@ -45,8 +40,6 @@ public class TermDetailViewModel extends AndroidViewModel {
             public void run() {
                 TermEntity term = mRepository.getTermById(termId);
                 mLiveTerm.postValue(term);
-                mAssociatedCourses = mRepository.getAssociatedCourses(termId);
-
             }
         });
     }
@@ -82,11 +75,4 @@ public class TermDetailViewModel extends AndroidViewModel {
         return mCourse;
     }
 
-    public LiveData<List<TermCourseAssociationEntity>> getAllTermCourses() {
-        return mTermCourses;
-    }
-
-    public List<TermCourseAssociationEntity> getListTermCourseAssociations() {
-        return mRepository.getListTermCourseAssociations();
-    }
 }

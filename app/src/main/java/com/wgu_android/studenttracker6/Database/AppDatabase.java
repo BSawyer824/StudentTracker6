@@ -11,23 +11,14 @@ import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.wgu_android.studenttracker6.DAO.AssessmentDAO;
-import com.wgu_android.studenttracker6.DAO.CourseAssessmentDAO;
 import com.wgu_android.studenttracker6.DAO.CourseDAO;
-import com.wgu_android.studenttracker6.DAO.TermCourseAssociationDAO;
-import com.wgu_android.studenttracker6.DAO.TermCourseDAO;
 import com.wgu_android.studenttracker6.DAO.TermDAO;
 import com.wgu_android.studenttracker6.Entities.AssessmentEntity;
-import com.wgu_android.studenttracker6.Entities.CourseAssessmentEntity;
 import com.wgu_android.studenttracker6.Entities.CourseEntity;
-import com.wgu_android.studenttracker6.Entities.TermCourseAssociationEntity;
-import com.wgu_android.studenttracker6.Entities.TermCourseEntity;
 import com.wgu_android.studenttracker6.Entities.TermEntity;
 import com.wgu_android.studenttracker6.Utilities.ConvertTypes;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@Database(entities = {TermEntity.class, CourseEntity.class, AssessmentEntity.class, TermCourseEntity.class, CourseAssessmentEntity.class, TermCourseAssociationEntity.class}, version = 1, exportSchema = false)
+@Database(entities = {TermEntity.class, CourseEntity.class, AssessmentEntity.class}, version = 1, exportSchema = false)
 @TypeConverters({ConvertTypes.class})
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -40,9 +31,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract TermDAO termDao();
     public abstract CourseDAO courseDao();
     public abstract AssessmentDAO assessmentDao();
-    public abstract TermCourseDAO termCourseDao();
-    public abstract CourseAssessmentDAO courseAssessmentDao();
-    public abstract TermCourseAssociationDAO termCourseAssociationDao();
+
 
 
     //***************************************************************
@@ -82,30 +71,19 @@ public abstract class AppDatabase extends RoomDatabase {
         private final TermDAO mTermDao;
         private final CourseDAO mCourseDao;
         private final AssessmentDAO mAssessmentDao;
-        private final TermCourseDAO mTermCourseDao;
-        private final CourseAssessmentDAO mCourseAssessmentDao;
-        private final TermCourseAssociationDAO mTermCourseAssociationDao;
+
 
 
         PopulateDbAsync(AppDatabase db) {
             mTermDao = db.termDao();
             mCourseDao = db.courseDao();
             mAssessmentDao = db.assessmentDao();
-            mTermCourseDao = db.termCourseDao();
-            mCourseAssessmentDao = db.courseAssessmentDao();
-            mTermCourseAssociationDao = db.termCourseAssociationDao();
+
 
         }
 
         @Override
         protected Void doInBackground(final Void... params) {
-            // Start the app with a clean database every time.
-            // Not needed if you only populate on creation.
-//            mTermDao.deleteAll();
-//
-//            //Add Sample Data
-//            List<TermsEntity> termsData = new ArrayList<>(SampleDataEntities.getTerms());
-//            mTermDao.insertAll(SampleDataEntities.getTerms());
 
             return null;
         }

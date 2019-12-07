@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -21,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.wgu_android.studenttracker6.Adapters.CourseAdapter;
 import com.wgu_android.studenttracker6.Entities.CourseEntity;
-import com.wgu_android.studenttracker6.Entities.TermCourseAssociationEntity;
 import com.wgu_android.studenttracker6.Entities.TermEntity;
 import com.wgu_android.studenttracker6.ViewModels.TermDetailViewModel;
 
@@ -50,8 +48,8 @@ public class TermDetailActivity extends AppCompatActivity {
     @BindView(R.id.editTextEndDate)
     EditText mEditTextEndDate;
 
-    @BindView(R.id.textViewTermId)
-    TextView mTextViewTermId;
+//    @BindView(R.id.textViewTermId)
+//    TextView mTextViewTermId;
 
 
     final Calendar myCalendarStart = Calendar.getInstance();
@@ -69,7 +67,6 @@ public class TermDetailActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
 
     private List<CourseEntity> courseData = new ArrayList<>();
-    private List<TermCourseAssociationEntity> termCourseData = new ArrayList<>();
     private CourseAdapter mAdapter;
 
 
@@ -165,7 +162,7 @@ public class TermDetailActivity extends AppCompatActivity {
                 mEditTextTermName.setText(termEntity.getTermName());
                 setLabelStart(termEntity);
                 setLabelEnd(termEntity);
-                mTextViewTermId.setText(Integer.toString(termEntity.getTermID()));
+                //mTextViewTermId.setText(Integer.toString(termEntity.getTermID()));
             }
         });
 

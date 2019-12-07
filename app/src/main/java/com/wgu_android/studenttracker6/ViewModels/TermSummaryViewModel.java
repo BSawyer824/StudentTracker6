@@ -39,6 +39,5 @@ public class TermSummaryViewModel extends AndroidViewModel {
         mRepository.deleteAllTerms();
         mRepository.deleteAllCourses();
         mRepository.deleteAllAssessments();
-        mRepository.deleteAllTermCourses();
     }
 }
