@@ -21,6 +21,7 @@ public class AppRepository {
     private AppDatabase mDb;
     private Executor executor = Executors.newSingleThreadExecutor();
 
+
     public static AppRepository getInstance(Context context) {
         if (ourInstance == null) {
             ourInstance = new AppRepository(context);
@@ -86,6 +87,9 @@ public class AppRepository {
         });
     }
 
+    public int generateNewTermId() {
+        return mDb.termDao().getNextTermId();
+    }
 
     //*************************************************************
     //Course Methods
@@ -160,6 +164,7 @@ public class AppRepository {
             }
         });
     }
+
 
 
 }

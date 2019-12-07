@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -32,6 +33,8 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_NEW;
+import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_TERM_ID;
 import static com.wgu_android.studenttracker6.Utilities.Constants.NEW_COURSE_ACTIVITY_REQUEST_CODE;
 import static com.wgu_android.studenttracker6.Utilities.Constants.TERM_KEY_ID;
 
@@ -48,6 +51,9 @@ public class TermDetailActivity extends AppCompatActivity {
     @BindView(R.id.editTextEndDate)
     EditText mEditTextEndDate;
 
+    @BindView(R.id.textViewTermId_TermDetail)
+    TextView mTextViewTermId;
+
 
     final Calendar myCalendarStart = Calendar.getInstance();
     final Calendar myCalendarEnd = Calendar.getInstance();
@@ -56,6 +62,7 @@ public class TermDetailActivity extends AppCompatActivity {
     private EditText mTermName;
     private Boolean mNewTerm;
     private TermDetailViewModel mViewModel;
+    private int termId;
 
 
     //*************************************************
@@ -87,7 +94,12 @@ public class TermDetailActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                saveAndReturn();
+                termId = mViewModel.getLiveTermId();
+
                 Intent intent = new Intent(TermDetailActivity.this, CourseDetailActivity.class);
+                intent.putExtra(COURSE_TERM_ID, termId);
+                intent.putExtra(COURSE_NEW, true);
                 startActivityForResult(intent, NEW_COURSE_ACTIVITY_REQUEST_CODE);
             }
         });
@@ -159,7 +171,7 @@ public class TermDetailActivity extends AppCompatActivity {
                 mEditTextTermName.setText(termEntity.getTermName());
                 setLabelStart(termEntity);
                 setLabelEnd(termEntity);
-                //mTextViewTermId.setText(Integer.toString(termEntity.getTermID()));
+                mTextViewTermId.setText(Integer.toString(termEntity.getTermID()));
             }
         });
 
@@ -168,9 +180,12 @@ public class TermDetailActivity extends AppCompatActivity {
         if (extras == null) {
             setTitle("New Term");
             mNewTerm = true;
+            //termId = mViewModel.generateNewTermId();
+            //mTextViewTermId.setText(Integer.toString(termId));
         } else {
+
             setTitle("Edit Term");
-            int termId = extras.getInt(TERM_KEY_ID);
+            termId = extras.getInt(TERM_KEY_ID);
             mViewModel.loadData(termId);
         }
 
@@ -226,7 +241,6 @@ public class TermDetailActivity extends AppCompatActivity {
     }
 
     private void saveAndReturn() {
-        //mViewModel.saveTerm(mTextViewTermName.getText().toString());  //for testing just the Term Name
         mViewModel.saveTerm(mEditTextTermName.getText().toString(), myCalendarStart.getTime(), myCalendarEnd.getTime()); //To send Name and Dates
         finish();
     }

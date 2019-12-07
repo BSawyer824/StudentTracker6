@@ -29,6 +29,7 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -42,6 +43,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_KEY_ID;
+import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_NAME;
+import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_NEW;
+import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_STATUS;
+import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_TERM_ID;
 import static com.wgu_android.studenttracker6.Utilities.Constants.NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE;
 import static com.wgu_android.studenttracker6.Utilities.Constants.NEW_COURSE_ACTIVITY_REQUEST_CODE;
 import static com.wgu_android.studenttracker6.Utilities.Constants.TERM_KEY_ID;
@@ -74,6 +79,12 @@ public class CourseDetailActivity extends AppCompatActivity implements AdapterVi
     @BindView(R.id.editTextNotes)
     EditText mEditTextNotes;
 
+    @BindView(R.id.textViewTestStatus)
+    TextView mTestStatus;
+
+    @BindView(R.id.textViewTermId)
+    TextView mTextViewCourseTermId;
+
     final Calendar myCalendarStart = Calendar.getInstance();
     final Calendar myCalendarEnd = Calendar.getInstance();
     DatePickerDialog.OnDateSetListener startDate;
@@ -81,6 +92,7 @@ public class CourseDetailActivity extends AppCompatActivity implements AdapterVi
     private CourseDetailViewModel mViewModel;
     private String spinnerSelectedItem;
     private boolean mNewCourse;
+    private int courseTermId;
 
     //****************************************************************************
     //Assessment Variables
@@ -184,19 +196,25 @@ public class CourseDetailActivity extends AppCompatActivity implements AdapterVi
                 mEditTextPhone.setText(courseEntity.getCourseMentorPhone());
                 mEditTextEmail.setText(courseEntity.getCourseMentorEmail());
                 mEditTextNotes.setText(courseEntity.getCourseNotes());
+                mTestStatus.setText(courseEntity.getCourseStatus());
                 spinnerSelectedItem = courseEntity.getCourseStatus();
+                mTextViewCourseTermId.setText(Integer.toString(courseEntity.getFkTermId()));
                 //TODO how do I pull in the course status and assign it to the spinner
             }
         });
 
         //Check to see if a course was passed, and if so, display it
         Bundle extras = getIntent().getExtras();
-        if (extras == null) {
+        if (extras.getBoolean(COURSE_NEW) == true) {
             setTitle("New Course");
             mNewCourse = true;
+            courseTermId = extras.getInt(COURSE_TERM_ID);
+            mTextViewCourseTermId.setText(Integer.toString(courseTermId));
         } else {
             setTitle("Edit Course");
             int courseId = extras.getInt(COURSE_KEY_ID);
+            courseTermId = extras.getInt(COURSE_TERM_ID);
+            spinnerSelectedItem = extras.getString(COURSE_STATUS);
             mViewModel.loadData(courseId);
         }
 
@@ -258,11 +276,12 @@ public class CourseDetailActivity extends AppCompatActivity implements AdapterVi
 
     private void saveAndReturn() {
 
+        //Save Course to DB
         spinnerSelectedItem = spinner.getSelectedItem().toString();
-
+        int termId = Integer.parseInt(mTextViewCourseTermId.getText().toString());
         mViewModel.saveCourse(mEditTextCourseName.getText().toString(), myCalendarStart.getTime(),
                 myCalendarEnd.getTime(), mEditTextMentor.getText().toString(), mEditTextPhone.getText().toString(),
-                mEditTextEmail.getText().toString(), mEditTextNotes.getText().toString(), spinnerSelectedItem);
+                mEditTextEmail.getText().toString(), mEditTextNotes.getText().toString(), spinnerSelectedItem, termId);
 
         finish();
     }

@@ -75,4 +75,12 @@ public class TermDetailViewModel extends AndroidViewModel {
         return mCourse;
     }
 
+    public int generateNewTermId() {
+        return mRepository.generateNewTermId();
+    }
+
+    public int getLiveTermId() {
+        TermEntity term = mLiveTerm.getValue();
+        return term.getTermID();
+    }
 }

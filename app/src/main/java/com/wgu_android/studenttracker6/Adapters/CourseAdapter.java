@@ -20,6 +20,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_KEY_ID;
 import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_NAME;
+import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_NEW;
+import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_STATUS;
+import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_TERM_ID;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
 
@@ -63,6 +66,9 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                 Intent intent = new Intent(mContext, CourseDetailActivity.class);
                 intent.putExtra(COURSE_KEY_ID, course.getCourseID());
                 intent.putExtra(COURSE_NAME, course.getCourseName());
+                intent.putExtra(COURSE_STATUS, course.getCourseStatus());
+                intent.putExtra(COURSE_TERM_ID, course.getFkTermId());
+                intent.putExtra(COURSE_NEW, false);
                 mContext.startActivity(intent);
             }
         });

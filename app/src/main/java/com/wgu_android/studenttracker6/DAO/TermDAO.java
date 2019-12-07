@@ -32,5 +32,6 @@ public interface TermDAO {
     @Query("SELECT * FROM term_table WHERE term_id = :id")
     TermEntity getTermById(int id);
 
-
+    @Query("SELECT MAX(term_id)+1 FROM term_table")
+    int getNextTermId();
 }

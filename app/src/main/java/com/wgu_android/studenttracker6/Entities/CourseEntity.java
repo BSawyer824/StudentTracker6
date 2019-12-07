@@ -54,7 +54,7 @@ public class CourseEntity {
     @Ignore
     public CourseEntity(String courseName, Date courseStart, Date courseEnd, String courseStatus,
                         String courseMentorName, String courseMentorPhone, String courseMentorEmail,
-                        String courseNotes) {
+                        String courseNotes, int fkTermId) {
 
         this.courseName = courseName;
         this.courseStart = courseStart;
@@ -64,6 +64,7 @@ public class CourseEntity {
         this.courseMentorEmail = courseMentorEmail;
         this.courseStatus = courseStatus;
         this.courseNotes = courseNotes;
+        this.fkTermId = fkTermId;
     }
 
 

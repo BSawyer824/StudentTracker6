@@ -49,7 +49,7 @@ public class CourseDetailViewModel extends AndroidViewModel {
     }
 
     public void saveCourse(String courseName, Date courseStart, Date courseEnd, String mentorName,
-                           String mentorPhone, String mentorEmail, String courseNotes, String courseStatus) {
+                           String mentorPhone, String mentorEmail, String courseNotes, String courseStatus, int termId) {
 
         CourseEntity course = mLiveCourse.getValue();
         if (course == null) {
@@ -58,7 +58,7 @@ public class CourseDetailViewModel extends AndroidViewModel {
                 return;
             } else {
                 course = new CourseEntity(courseName.trim(), courseStart, courseEnd, courseStatus,
-                        mentorName, mentorPhone, mentorEmail, courseNotes);
+                        mentorName, mentorPhone, mentorEmail, courseNotes, termId);
             }
         } else {
             //Existing Course
@@ -70,6 +70,7 @@ public class CourseDetailViewModel extends AndroidViewModel {
             course.setCourseMentorPhone(mentorPhone);
             course.setCourseMentorEmail(mentorEmail);
             course.setCourseNotes(courseNotes);
+            course.setFkTermId(termId);
         }
 
         //Save to Repository
