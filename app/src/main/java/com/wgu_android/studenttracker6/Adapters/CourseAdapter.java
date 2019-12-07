@@ -92,17 +92,4 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         }
     }
 
-    public void setCourses(List<CourseEntity> courses) {
-        mCourses = courses;
-        notifyDataSetChanged();
-    }
-
-    public CourseEntity getCourseById(int courseId) {
-        for (CourseEntity c: mCourses)
-            if(c.getCourseID() == courseId)
-                return c;
-        return null;
-    }
-
-
 }

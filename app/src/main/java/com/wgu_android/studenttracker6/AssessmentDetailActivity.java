@@ -190,6 +190,7 @@ public class AssessmentDetailActivity extends AppCompatActivity  implements Adap
         spinnerSelectedItem = spinnerAssessment.getSelectedItem().toString();
 
         //TODO replace 1 with lookup of course id
+
         mViewModel.saveAssessment(mEditTextAssessmentName.getText().toString(), myCalendarGoal.getTime(),
                 myCalendarDue.getTime(), spinnerSelectedItem, 1);
 

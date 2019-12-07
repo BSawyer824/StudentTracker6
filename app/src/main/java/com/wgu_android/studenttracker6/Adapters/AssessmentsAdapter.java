@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.wgu_android.studenttracker6.AssessmentDetailActivity;
-import com.wgu_android.studenttracker6.CourseDetailActivity;
 import com.wgu_android.studenttracker6.Entities.AssessmentEntity;
 import com.wgu_android.studenttracker6.R;
 
@@ -25,9 +24,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.wgu_android.studenttracker6.Utilities.Constants.ASSESMENT_KEY_ID;
+import static com.wgu_android.studenttracker6.Utilities.Constants.ASSESSMENT_COURSE_ID;
 import static com.wgu_android.studenttracker6.Utilities.Constants.ASSESSMENT_NAME;
-import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_KEY_ID;
-import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_NAME;
+import static com.wgu_android.studenttracker6.Utilities.Constants.ASSESSMENT_NEW;
 
 public class AssessmentsAdapter extends RecyclerView.Adapter<AssessmentsAdapter.ViewHolder> {
 
@@ -72,6 +71,8 @@ public class AssessmentsAdapter extends RecyclerView.Adapter<AssessmentsAdapter.
                 Intent intent = new Intent(mContext, AssessmentDetailActivity.class);
                 intent.putExtra(ASSESMENT_KEY_ID, assessment.getAssessmentID());
                 intent.putExtra(ASSESSMENT_NAME, assessment.getAssessmentName());
+                intent.putExtra(ASSESSMENT_COURSE_ID, assessment.getFkCourseId());
+                intent.putExtra(ASSESSMENT_NEW, false);
                 mContext.startActivity(intent);
             }
         });

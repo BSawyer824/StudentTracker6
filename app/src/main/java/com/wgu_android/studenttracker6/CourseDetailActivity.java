@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.wgu_android.studenttracker6.Adapters.AssessmentsAdapter;
+import com.wgu_android.studenttracker6.Adapters.CourseAdapter;
 import com.wgu_android.studenttracker6.Entities.AssessmentEntity;
 import com.wgu_android.studenttracker6.Entities.CourseEntity;
 import com.wgu_android.studenttracker6.ViewModels.CourseDetailViewModel;
@@ -36,11 +37,13 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.wgu_android.studenttracker6.Utilities.Constants.ASSESSMENT_COURSE_ID;
 import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_KEY_ID;
 import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_NEW;
 import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_STATUS;
 import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_TERM_ID;
 import static com.wgu_android.studenttracker6.Utilities.Constants.NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE;
+import static com.wgu_android.studenttracker6.Utilities.Constants.TERM_KEY_ID;
 
 public class CourseDetailActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -195,7 +198,7 @@ public class CourseDetailActivity extends AppCompatActivity implements AdapterVi
         });
 
         //Check to see if a course was passed, and if so, display it
-        Bundle extras = getIntent().getExtras();
+        final Bundle extras = getIntent().getExtras();
         if (extras.getBoolean(COURSE_NEW) == true) {
             setTitle("New Course");
             mNewCourse = true;
@@ -209,24 +212,30 @@ public class CourseDetailActivity extends AppCompatActivity implements AdapterVi
             mViewModel.loadData(courseId);
         }
 
-        //Observe Assessment Recycler View for changes
+        //Observe Assessment Recycler View for changes - show only Associated Assessments
         final Observer<List<AssessmentEntity>> assessmentObserver = new Observer<List<AssessmentEntity>>() {
             @Override
             public void onChanged(List<AssessmentEntity> assessmentEntities) {
                 assessmentData.clear();
-                assessmentData.addAll(assessmentEntities);
+
+                for(AssessmentEntity a: assessmentEntities)
+                    if(a.getFkCourseId() == extras.getInt(COURSE_KEY_ID, 0))
+                        assessmentData.add(a);
+                //assessmentData.addAll(assessmentEntities);
 
                 if (mAdapter == null) {
                     mAdapter = new AssessmentsAdapter(assessmentData, CourseDetailActivity.this);
                     mRecyclerView.setAdapter(mAdapter);
                 } else {
-                    mAdapter.notifyDataSetChanged();;
+                    mAdapter.notifyDataSetChanged();
                 }
             }
         };
 
         mViewModel.mAssessment.observe(this, assessmentObserver);
+
     }
+
 
     private void initRecyclerView() {
         mRecyclerView.setHasFixedSize(true);
