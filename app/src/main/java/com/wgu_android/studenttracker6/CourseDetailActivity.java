@@ -3,24 +3,6 @@ package com.wgu_android.studenttracker6;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.wgu_android.studenttracker6.Adapters.AssessmentsAdapter;
-import com.wgu_android.studenttracker6.Adapters.CourseAdapter;
-import com.wgu_android.studenttracker6.Entities.AssessmentEntity;
-import com.wgu_android.studenttracker6.Entities.CourseEntity;
-import com.wgu_android.studenttracker6.Entities.TermEntity;
-import com.wgu_android.studenttracker6.ViewModels.CourseDetailViewModel;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,12 +12,24 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.wgu_android.studenttracker6.Adapters.AssessmentsAdapter;
+import com.wgu_android.studenttracker6.Entities.AssessmentEntity;
+import com.wgu_android.studenttracker6.Entities.CourseEntity;
+import com.wgu_android.studenttracker6.ViewModels.CourseDetailViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -43,13 +37,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_KEY_ID;
-import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_NAME;
 import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_NEW;
 import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_STATUS;
 import static com.wgu_android.studenttracker6.Utilities.Constants.COURSE_TERM_ID;
 import static com.wgu_android.studenttracker6.Utilities.Constants.NEW_ASSESSMENT_ACTIVITY_REQUEST_CODE;
-import static com.wgu_android.studenttracker6.Utilities.Constants.NEW_COURSE_ACTIVITY_REQUEST_CODE;
-import static com.wgu_android.studenttracker6.Utilities.Constants.TERM_KEY_ID;
 
 public class CourseDetailActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 

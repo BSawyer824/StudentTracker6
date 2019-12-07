@@ -23,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -50,6 +51,9 @@ public class AssessmentDetailActivity extends AppCompatActivity  implements Adap
 
     @BindView(R.id.editTextDueDate)
     EditText mEditTextDueDate;
+
+    @BindView(R.id.textViewCourseId_Assessments)
+    TextView mTextViewCourseId;
 
     final Calendar myCalendarGoal = Calendar.getInstance();
     final Calendar myCalendarDue = Calendar.getInstance();
@@ -185,8 +189,9 @@ public class AssessmentDetailActivity extends AppCompatActivity  implements Adap
 
         spinnerSelectedItem = spinnerAssessment.getSelectedItem().toString();
 
+        //TODO replace 1 with lookup of course id
         mViewModel.saveAssessment(mEditTextAssessmentName.getText().toString(), myCalendarGoal.getTime(),
-                myCalendarDue.getTime(), spinnerSelectedItem);
+                myCalendarDue.getTime(), spinnerSelectedItem, 1);
 
         finish();
     }

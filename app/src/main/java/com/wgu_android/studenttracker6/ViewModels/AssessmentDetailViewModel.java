@@ -41,7 +41,7 @@ public class AssessmentDetailViewModel extends AndroidViewModel {
         });
     }
 
-    public void saveAssessment(String assessmentName, Date goalDate, Date dueDate, String spinnerSelectedItem) {
+    public void saveAssessment(String assessmentName, Date goalDate, Date dueDate, String spinnerSelectedItem, int fkCourseId) {
         AssessmentEntity assessment = mLiveAssessment.getValue();
 
         if (assessment == null) {
@@ -49,7 +49,7 @@ public class AssessmentDetailViewModel extends AndroidViewModel {
             if (TextUtils.isEmpty((assessmentName.trim()))) {
                 return;
             } else {
-                assessment = new AssessmentEntity(assessmentName, spinnerSelectedItem, goalDate, dueDate);
+                assessment = new AssessmentEntity(assessmentName, spinnerSelectedItem, goalDate, dueDate, fkCourseId);
             }
 
         } else {
@@ -57,6 +57,7 @@ public class AssessmentDetailViewModel extends AndroidViewModel {
             assessment.setAssessmentGoalDate(goalDate);
             assessment.setAssessmentDueDate(dueDate);
             assessment.setAssessmentType(spinnerSelectedItem);
+            assessment.setFkCourseId(fkCourseId);
         }
         mRepository.insertAssessment(assessment);
 

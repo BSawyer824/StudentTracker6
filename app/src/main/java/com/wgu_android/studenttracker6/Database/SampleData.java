@@ -51,8 +51,9 @@ public class SampleData {
 
     public static List<AssessmentEntity> getAssessment() {
 
-        assessment.add(new AssessmentEntity(SAMPLE_TEXT_6, getDate(750), getDate(1500)));
-        assessment.add(new AssessmentEntity(SAMPLE_TEXT_7, getDate(2500), getDate(5000)));
+        assessment.add(new AssessmentEntity(SAMPLE_TEXT_6, "Objective", getDate(750), getDate(1500), 1));
+        assessment.add(new AssessmentEntity(SAMPLE_TEXT_7, "Performance", getDate(2500), getDate(5000), 2));
+        assessment.add(new AssessmentEntity(SAMPLE_TEXT_6, "Objective", getDate(750), getDate(1500), 3));
         return assessment;
     }
 
